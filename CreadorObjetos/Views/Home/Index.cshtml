@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+@*<link href="~/Content/CodeMirror/codemirror.css" rel="stylesheet" />
+    <link href="~/Content/CodeMirror/fullscreen.css" rel="stylesheet" />
+    <link href="~/Content/CodeMirror/night.css" rel="stylesheet" />*@
+
+
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="row panel panel-title panel-primary col-md-12 col-xs-12" style="margin-top: 5px; margin-left: 0px">
+            <div class="panel-heading">
+                Gestión para la Creación del Objetos
+            </div>
+            <br />
+            @*<div class="col-md-12 col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Información de Base de Datos</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4 col-xs-4" id="divNombreServidor">
+                                    Nombre del Servidor:
+                                    <input id="txtNombreServidor" type="text" />
+                                </div>
+                                <div class="col-md-4 col-xs-4" id="divIniciarSesion">
+                                    Iniciar Sesión:
+                                    <input id="txtIniciarSesion" type="text" />
+                                </div>
+                                <div class="col-md-4 col-xs-4" id="divContrasenia">
+                                    Contraseña:
+                                    <input id="txtContrasenia" type="password" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="col-md-12 col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Información de Base de Datos</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                Base de Datos:
+                                <select id="ddlBaseDatos" class="form-control"></select>
+                            </div>
+                            <div class="col-md-4 col-xs-4" id="divEsquema">
+                                Esquemas:
+                                <select id="ddlEsquema" class="form-control"></select>
+                            </div>
+                            <div class="col-md-4 col-xs-4" id="divTabla">
+                                Tablas:
+                                <select id="ddlTabla" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="col-md-12 col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Información Acerca del Proyecto</div>
+                    <div class="panel-body">
+                        <div class="col-md-6 col-xs-6" id="divProyecto">
+                            Proyectos:
+                            <select id="ddlProyecto" class="form-control"></select>
+                        </div>
+                        <div class="col-md-6 col-xs-6" id="divUsuariosProyecto">
+                            Usuarios Por Proyecto:
+                            <select id="ddlUsuariosProyecto" class="form-control"></select>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Utilerías</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4" id="divWCF">
+                                <label>Crear Objetos WCF:</label>
+                                <input id="chkWS" type="checkbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row" style="text-align: center">
+                <div class="col-md-12 col-xs-12">
+                    <button type="button" class="btn btn-primary btn-sm" id="btnGenerObjetos">Generar Objetos</button>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+<br />
+<div class="row" id="PintarObjetos">
+    <div class="col-md-12 col-lg-12">
+        <div class="row panel panel-title panel-primary col-md-12 col-xs-12" style="margin-top: 5px; margin-left: 0px">
+            <div class="panel-heading">
+                Vista Previa del Objetos Creados
+            </div>
+            <br />
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Objeto DTO
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <textarea id="codeDTO" name="code" rows="15" cols="150" style="width: 100%" readonly="readonly" disabled="disabled"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Objeto Data Layer
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            <textarea id="codeBussines" name="code" rows="50" cols="150" style="width: 100%" readonly="readonly" disabled="disabled"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Objeto Stored Procedure
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body">
+                            <textarea id="codeSP" name="code" rows="100" cols="150" style="width: 100%" readonly="readonly" disabled="disabled"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="pnlWSDTO" style="display:none">
+                    <div class="panel-heading" role="tab" id="headingFour">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Objeto WS DTO
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                        <div class="panel-body">
+                            <textarea id="codeWSDTO" name="code" rows="15" cols="150" style="width: 100%" readonly="readonly" disabled="disabled"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="pnlWSDLL" style="display:none">
+                    <div class="panel-heading" role="tab" id="headingFive">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                Objeto WS DLL
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                        <div class="panel-body">
+                            <textarea id="codeWSDLL" name="code" rows="100" cols="150" style="width: 100%" readonly="readonly" disabled="disabled"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="pnlWSBLL" style="display:none">
+                    <div class="panel-heading" role="tab" id="headingSix">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                Objeto WS BLL
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                        <div class="panel-body">
+                            <textarea id="codeWSBLL" name="code" rows="50" cols="150" style="width: 100%" readonly="readonly" disabled="disabled"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+
+
+@*<script src="~/Scripts/jquery-2.2.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>*@
+<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+@*<script src="~/Scripts/CodeMirror/codemirror.js"></script>
+    <script src="~/Scripts/CodeMirror/fullscreen.js"></script>
+    <script src="~/Scripts/CodeMirror/xml.js"></script>*@
+
+
+<script src="~/Scripts/Sistema/CrearObjetos.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    GestionarCrearObjetos.Inicial();
+</script>
+
