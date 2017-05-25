@@ -21,17 +21,20 @@
                         <div class="panel-heading">Información de Base de Datos</div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-4 col-xs-4" id="divNombreServidor">
-                                    Nombre del Servidor:
+                                <div class="col-md-3 col-xs-3" id="divNombreServidor">
+                                    Nombre del Servidor :
                                     <input id="txtNombreServidor" type="text" />
                                 </div>
-                                <div class="col-md-4 col-xs-4" id="divIniciarSesion">
-                                    Iniciar Sesión:
-                                    <input id="txtIniciarSesion" type="text" />
+                                <div class="col-md-3 col-xs-3" id="divIniciarSesion">
+                                    Iniciar Sesión :
+                                    <input id="txtUsuario" type="text" />
                                 </div>
-                                <div class="col-md-4 col-xs-4" id="divContrasenia">
-                                    Contraseña:
+                                <div class="col-md-3 col-xs-3" id="divContrasenia">
+                                    Contraseña :
                                     <input id="txtContrasenia" type="password" />
+                                </div>
+                                <div class="col-md-3 col-xs-3" id="divConexion">
+                                    <button type="button" class="btn btn-primary btn-sm" id="btnConexion">Generar Conexión</button>
                                 </div>
                             </div>
                         </div>
@@ -39,10 +42,65 @@
                 </div>*@
             <div class="col-md-12 col-lg-12">
                 <div class="panel panel-primary">
+                    <div class="panel-heading">Gestor de Base de Datos</div>
+                    <div class="panel-body">
+                        <div class="row text-center">
+                            <div class="col-md-6 col-xs-6" id="divNombreServidor">
+                                <label>Microsoft SQL Server:</label>
+                                <input id="chkSQL" type="radio" name="GestorBD" />
+                            </div>
+                            <div class="col-md-6 col-xs-6" id="divIniciarSesion">
+                                <label>Oracle:</label>
+                                <input id="chkOracle" type="radio" name="GestorBD" checked="checked" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-12" id="ConexionBD">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Conexión a Base de Datos</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4" id="divNombreServidor">
+                                <label>Nombre del Servidor :</label>
+                                <input id="txtNombreServidor" type="text" class="form-control" maxlength="100" />
+                            </div>
+                            <div class="col-md-4 col-xs-4" id="divIniciarSesion">
+                                <label>Nombre de Usuario :</label>
+                                <input id="txtNombreUsuario" type="text" class="form-control" maxlength="100" />
+                            </div>
+                            <div class="col-md-4 col-xs-4" id="divContrasenia">
+                                <label>Contraseña :</label>
+                                <input id="txtContrasenia" type="password" class="form-control" maxlength="100" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4" id="divNombreServicio">
+                                <label>Nombre del Servicio :</label>
+                                <input id="txtNombreServicio" type="text" class="form-control" maxlength="50"/>
+                            </div>
+                            <div class="col-md-4 col-xs-4" id="divPuerto">
+                                <label>Puerto :</label>
+                                <input id="txtPuerto" type="text" class="form-control" maxlength="5"/>
+                            </div>
+                        </div>
+                        <br />
+                        <div style="text-align:center">
+                            <button type="button" class="btn btn-primary btn-sm" id="btnConectarBD">Conectar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12 col-lg-12" id="divInfoBD" style="display:none">
+                <div class="panel panel-primary">
                     <div class="panel-heading">Información de Base de Datos</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-4 col-xs-4">
+                            <div class="col-md-4 col-xs-4" id="divBaseDatos">
                                 Base de Datos:
                                 <select id="ddlBaseDatos" class="form-control"></select>
                             </div>
@@ -59,7 +117,7 @@
                 </div>
             </div>
             <br />
-            <div class="col-md-12 col-lg-12">
+            <div class="col-md-12 col-lg-12" id="divInfoProyecto" style="display:none">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Información Acerca del Proyecto</div>
                     <div class="panel-body">
@@ -75,7 +133,7 @@
                     <br />
                 </div>
             </div>
-            <div class="col-md-12 col-lg-12">
+            <div class="col-md-12 col-lg-12" id="divUtilerias" style="display:none">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Utilerías</div>
                     <div class="panel-body">

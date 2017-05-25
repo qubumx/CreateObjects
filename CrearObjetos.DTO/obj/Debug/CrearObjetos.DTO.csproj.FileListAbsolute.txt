@@ -3,3 +3,8 @@ C:\Users\Carlos\Desktop\Creador de Objetos\CreadorObjetos\CrearObjetos.DTO\bin\D
 C:\Users\Carlos\Desktop\Creador de Objetos\CreadorObjetos\CrearObjetos.DTO\obj\Debug\CrearObjetos.DTO.csprojResolveAssemblyReference.cache
 C:\Users\Carlos\Desktop\Creador de Objetos\CreadorObjetos\CrearObjetos.DTO\obj\Debug\CrearObjetos.DTO.dll
 C:\Users\Carlos\Desktop\Creador de Objetos\CreadorObjetos\CrearObjetos.DTO\obj\Debug\CrearObjetos.DTO.pdb
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.DTO\bin\Debug\CrearObjetos.DTO.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.DTO\bin\Debug\CrearObjetos.DTO.pdb
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.DTO\obj\Debug\CrearObjetos.DTO.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.DTO\obj\Debug\CrearObjetos.DTO.pdb
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.DTO\obj\Debug\CrearObjetos.DTO.csprojResolveAssemblyReference.cache

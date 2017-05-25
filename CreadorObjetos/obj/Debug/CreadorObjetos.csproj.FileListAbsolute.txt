@@ -69,3 +69,42 @@ C:\Users\MXQUIC01\Desktop\Creador de Objetos\CreadorObjetos\CreadorObjetos\bin\C
 C:\Users\MXQUIC01\Desktop\Creador de Objetos\CreadorObjetos\CreadorObjetos\obj\Debug\CreadorObjetos.csprojResolveAssemblyReference.cache
 C:\Users\MXQUIC01\Desktop\Creador de Objetos\CreadorObjetos\CreadorObjetos\obj\Debug\CreadorObjetos.dll
 C:\Users\MXQUIC01\Desktop\Creador de Objetos\CreadorObjetos\CreadorObjetos\obj\Debug\CreadorObjetos.pdb
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\CreadorObjetos.dll.config
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\CreadorObjetos.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\CreadorObjetos.pdb
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\Antlr3.Runtime.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\CrearObjetos.BLL.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\CrearObjetos.DTO.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\EntityFramework.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\Newtonsoft.Json.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Net.Http.Formatting.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Http.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Http.WebHost.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Mvc.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Optimization.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Providers.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Razor.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.Deployment.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.Razor.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\WebGrease.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\CrearObjetos.DLL.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\FluentData.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\CrearObjetos.BLL.pdb
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\CrearObjetos.DTO.pdb
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\EntityFramework.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\Newtonsoft.Json.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Net.Http.Formatting.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Http.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Http.WebHost.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Mvc.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.Razor.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.Deployment.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.Razor.xml
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\CrearObjetos.DLL.pdb
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\obj\Debug\CreadorObjetos.csprojResolveAssemblyReference.cache
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\obj\Debug\CreadorObjetos.dll
+C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\obj\Debug\CreadorObjetos.pdb

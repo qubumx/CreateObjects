@@ -22,6 +22,90 @@
             GestionarCrearObjetos.CargarUsuariosProyecto($(this).val());
         });
 
+        $("#chkSQL").click(function () {
+            GestionarCrearObjetos.GestorBDSQL();
+        });
+
+        $("#chkOracle").click(function () {
+            GestionarCrearObjetos.GestorBDOracle();
+        });
+
+        $("#btnConectarBD").click(function () {
+            GestionarCrearObjetos.ConectarBD();
+        });
+
+    },
+
+    GestorBDSQL: function () {
+        $('#divInfoBD').slideUp();
+        $('#divNombreServicio').slideUp();
+        $('#divPuerto').slideUp();
+
+        $('#txtNombreServicio').val('');
+        $('#txtPuerto').val('');
+    },
+
+    GestorBDOracle: function () {
+        $('#divInfoBD').slideUp();
+        $('#divNombreServicio').slideDown();
+        $('#divPuerto').slideDown();
+
+        $('#txtNombreServicio').val('');
+        $('#txtPuerto').val('');
+    },
+
+    ConectarBD: function () {
+        GestorBaseDatos = {
+            Servidor: $("#txtNombreServidor").val(),
+            NombreUsuario: $("#txtNombreUsuario").val(),
+            Contrasenia: $("#txtContrasenia").val(),
+            GestorBaseDatos: $("#chkSQL").is(":checked") ? 1 : 2,
+            NombreServicio: $('#txtNombreServicio').val(),
+            Puerto: $('#txtPuerto').val(),
+        }
+
+        $.ajax({
+            type: 'GET',
+            //Llamado al metodo en el controlador
+            url: 'Home/ValidarConexion',
+            contentType: "application/json;",
+            dataType: "json",
+            //Parametros que se envian al metodo del controlador
+            data: GestorBaseDatos,
+            //En caso de resultado exitoso
+            success: function (response) {
+                if (response.ResponseType === true) {
+
+                    alert(response.UserMessage);
+
+                    switch (GestorBaseDatos.GestorBaseDatos) {
+                        case 1:
+                            GestionarCrearObjetos.CargarBaseDatos();
+                            break;
+                        case 2:
+                            GestionarCrearObjetos.CargarTablasOracle();
+                            break;
+                    }
+                }
+                else {
+                    alert(response.UserMessage);
+                }
+            },
+            complete: function () {
+
+            },
+            //Mensaje de error en caso de fallo
+            error: function (xhr, textStatus, err) {
+                console.log("readyState: " + xhr.readyState);
+                console.log("responseText: " + xhr.responseText);
+                console.log("status: " + xhr.status);
+                console.log("text status: " + textStatus);
+                console.log("error: " + err);
+
+                //alert("Error " + xhr.status + " " + thrownError + " " + xhr.responseText);
+            }
+        });
+
     },
 
     InicializarControles: function () {
@@ -163,6 +247,49 @@
         } else {
             $("#divTabla").slideUp();
         }
+    },
+
+    CargarTablasOracle: function () {
+
+        $.ajax({
+            type: 'GET',
+            //Llamado al metodo en el controlador
+            url: 'Home/ObtenerTablasOracle',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            //Parametros que se envian al metodo del controlador
+            data: GestorBaseDatos,
+            //En caso de resultado exitoso
+            success: function (response) {
+                if (response.ListRecords != null) {
+                    if (response.ListRecords.length > 0) {
+
+                        $('#divInfoBD').slideDown();
+                        $('#divBaseDatos').slideUp();
+                        $('#divEsquema').slideUp();
+                        $('#divTabla').slideDown();
+
+                        $("#ddlTabla").html('');
+                        $("#ddlTabla").append('<option value="">Seleccionar una Tabla</option>');
+                        $.each(response.ListRecords, function (indice, tabla) {
+                            $("#ddlTabla").append('<option value=' + tabla.NombreTabla + '>' + tabla.NombreTabla + '</option>');
+                        });
+                    }
+                    //else {
+                    //    //GestionarCrearObjetos.ModalMensajesInfo("Error Tabla", "Error al obtener información de la Tabla.");
+                    //    alert("Error al obtener información del esquema " + esquema + ".");
+                    //}
+                }
+                //else {
+                //    alert("Error al obtener información del esquema " + esquema + ".");
+                //}
+            },
+            //Mensaje de error en caso de fallo
+            error: function (xhr, ajaxOptions, thrownError) {
+                debugger;
+                alert("Error " + xhr.status + " " + thrownError);
+            }
+        });
     },
 
     CargarProyectos: function () {
@@ -393,3 +520,5 @@
     //     });
     //},
 }
+
+let GestorBaseDatos;

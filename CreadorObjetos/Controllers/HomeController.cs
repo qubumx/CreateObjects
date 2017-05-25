@@ -20,6 +20,13 @@ namespace CreadorObjetos.Controllers
         }
 
         [HttpGet]
+        public JsonResult ValidarConexion(GestorBaseDatosDTO informacioGestorBaseDatos)
+        {
+            Response<Boolean> ResponseValidarConexion = UtileriasBLL.Instances.ValidarConexion(informacioGestorBaseDatos);
+            return Json(ResponseValidarConexion, JsonRequestBehavior.AllowGet);     
+        }
+
+        [HttpGet]
         public JsonResult ObtenerBaseDatos()
         {
             Response<BaseDatosDTO> ResponseBaseDatos = UtileriasBLL.Instances.ObtenerBaseDatos();
@@ -41,6 +48,13 @@ namespace CreadorObjetos.Controllers
             BaseDatosDTO objBaseDatos = new BaseDatosDTO { NombreBaseDatos = baseDatos };
             EsquemaDTO objEsquema = new EsquemaDTO { NombreEsquema = esquema };
             Response<TablaDTO> ResponseTabla = UtileriasBLL.Instances.ObtenerTablas(objBaseDatos, objEsquema);
+            return Json(ResponseTabla, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerTablasOracle(GestorBaseDatosDTO informacioGestorBaseDatos)
+        {
+            Response<TablaDTO> ResponseTabla = UtileriasBLL.Instances.ObtenerTablasOracle(informacioGestorBaseDatos);
             return Json(ResponseTabla, JsonRequestBehavior.AllowGet);
         }
 

@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDatosDTO.cs" />
+    <Compile Include="EnumGestorBaseDatos.cs" />
     <Compile Include="EsquemaDTO.cs" />
+    <Compile Include="GestorBaseDatosDTO.cs" />
     <Compile Include="InformacionTablaDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProyectoDTO.cs" />

@@ -11,7 +11,16 @@ namespace CrearObjetos.DLL.DAL
     {
         public static IDbContext Context()
         {
-            return new DbContext().ConnectionStringName("ConexionBD", new SqlServerProvider());
+            return new DbContext().ConnectionStringName("ConexionBD", new OracleProvider());
+        }
+        public static IDbContext ContextOracle(String cadenaConexion)
+        {
+            return new DbContext().ConnectionString(cadenaConexion, new OracleProvider());
+        }
+
+        public static IDbContext ContextSQL(String cadenaConexion)
+        {
+            return new DbContext().ConnectionString(cadenaConexion, new SqlServerProvider());
         }
     }
 }

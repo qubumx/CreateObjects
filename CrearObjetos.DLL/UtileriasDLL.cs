@@ -6,7 +6,48 @@ using System.Data.SqlClient;
 namespace CrearObjetos.DLL
 {
     public class UtileriasDLL : Instance<UtileriasDLL>
-    {
+    { 
+
+        public Response<Boolean> ValidarCadenaConexion(String cadena, EnumGestorBaseDatos gestorBaseDatos)
+        {
+            Response<Boolean> respuestaValidarCadenaConexion = new Response<Boolean>();
+            try
+            {
+                switch (gestorBaseDatos)
+                {
+                    case EnumGestorBaseDatos.MicrosoftSQLServer:
+                        using (var context = DAL.DAL.ContextSQL(cadena))
+                        {
+                            respuestaValidarCadenaConexion.UserMessage = "La conexión al gestor de base de datos fue satisfactoria.";
+                            respuestaValidarCadenaConexion.StatusType = StatusType.Ok;
+                            respuestaValidarCadenaConexion.ResponseType = true;
+                        }
+                        break;
+                    case EnumGestorBaseDatos.Oracle:
+                        using (var context = DAL.DAL.ContextOracle(cadena))
+                        {
+                            respuestaValidarCadenaConexion.UserMessage = "La conexión al gestor de base de datos fue satisfactoria.";
+                            respuestaValidarCadenaConexion.StatusType = StatusType.Ok;
+                            respuestaValidarCadenaConexion.ResponseType = true;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                respuestaValidarCadenaConexion.ListError.Add(e.Message);
+                respuestaValidarCadenaConexion.UserMessage = "No se pudo establecer la conexión al gestor de base de datos, verifique su información";
+                respuestaValidarCadenaConexion.StatusType = StatusType.Error;
+                respuestaValidarCadenaConexion.ResponseType = false;
+            }
+
+            return respuestaValidarCadenaConexion;
+        }
+
         public Response<BaseDatosDTO> ObtenerBaseDatos()
         {
             Response<BaseDatosDTO> ObjBaseDatos = new Response<BaseDatosDTO>();
@@ -89,6 +130,46 @@ namespace CrearObjetos.DLL
                                             .Parameter("BaseDatos", baseDatos.NombreBaseDatos)
                                             .Parameter("EsquemaTabla", esquemaTabla.NombreEsquema)
                                             .QueryMany<TablaDTO>();
+                    if (ObjTablas.RecordsCount > 0)
+                    {
+                        ObjTablas.UserMessage = "Se obtuvo correctamente la información correspondiente a la base de datos.";
+                    }
+                    else
+                    {
+                        ObjTablas.UserMessage = "No se cuenta con información correspondiente a la base de datos.";
+                    }
+                }
+                catch (SqlException sqlex)
+                {
+                    ObjTablas.StatusType = StatusType.Error;
+                    ObjTablas.UserMessage = "Error SQL, Al obtener las bases de datos.";
+                    Log.LogFile(sqlex.Message, "ObtenerTablas", "Utilerias", "Administrador");
+                }
+                catch (Exception ex)
+                {
+                    ObjTablas.StatusType = StatusType.Error;
+                    ObjTablas.UserMessage = "Error SYS, Al obtener las bases de datos.";
+                    Log.LogFile(ex.Message, "ObtenerTablas", "Utilerias", "Administrador");
+                }
+            }
+            return ObjTablas;
+        }
+
+        public Response<TablaDTO> ObtenerTablasOracle(GestorBaseDatosDTO informacioGestorBaseDatos, String cadenaConexion)
+        {
+            Response<TablaDTO> ObjTablas = new Response<TablaDTO>();
+            using (var context = DAL.DAL.ContextOracle(cadenaConexion))
+            {
+                try
+                {
+                    //ObjTablas.ListRecords = context.Sql(@"SELECT OWNER AS Esquema, OBJECT_NAME AS NombreTabla FROM ALL_OBJECTS WHERE OWNER=@Esquema AND OBJECT_TYPE='TABLE'")
+                    //                        .Parameter("Esquema", informacioGestorBaseDatos.NombreUsuario)                                            
+                    //                        .QueryMany<TablaDTO>();
+                    string query = "SELECT OWNER AS Esquema, OBJECT_NAME AS NombreTabla FROM ALL_OBJECTS WHERE OWNER='" + informacioGestorBaseDatos.NombreUsuario + "' OBJECT_TYPE='TABLE';";
+                    ObjTablas.ListRecords = context.Sql(query)                                                                                    
+                                              .QueryMany<TablaDTO>();
+
+
                     if (ObjTablas.RecordsCount > 0)
                     {
                         ObjTablas.UserMessage = "Se obtuvo correctamente la información correspondiente a la base de datos.";
