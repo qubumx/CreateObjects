@@ -10,5 +10,6 @@ namespace CrearObjetos.DTO
     {
         public String Esquema { get; set; }
         public String NombreTabla { get; set; }
+        public String OtraPropiedad { get; set; }
     }
 }
