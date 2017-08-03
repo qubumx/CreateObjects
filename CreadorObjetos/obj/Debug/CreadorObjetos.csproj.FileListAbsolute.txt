@@ -108,3 +108,42 @@ C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\bin\Crea
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\obj\Debug\CreadorObjetos.csprojResolveAssemblyReference.cache
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\obj\Debug\CreadorObjetos.dll
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos\obj\Debug\CreadorObjetos.pdb
+D:\CreateObjects\CreadorObjetos\bin\CreadorObjetos.dll.config
+D:\CreateObjects\CreadorObjetos\bin\CreadorObjetos.dll
+D:\CreateObjects\CreadorObjetos\bin\CreadorObjetos.pdb
+D:\CreateObjects\CreadorObjetos\bin\Antlr3.Runtime.dll
+D:\CreateObjects\CreadorObjetos\bin\CrearObjetos.BLL.dll
+D:\CreateObjects\CreadorObjetos\bin\CrearObjetos.DTO.dll
+D:\CreateObjects\CreadorObjetos\bin\EntityFramework.dll
+D:\CreateObjects\CreadorObjetos\bin\Microsoft.Web.Infrastructure.dll
+D:\CreateObjects\CreadorObjetos\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+D:\CreateObjects\CreadorObjetos\bin\Newtonsoft.Json.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Net.Http.Formatting.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Http.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Http.WebHost.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Mvc.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Optimization.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Providers.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Razor.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.Deployment.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.dll
+D:\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.Razor.dll
+D:\CreateObjects\CreadorObjetos\bin\WebGrease.dll
+D:\CreateObjects\CreadorObjetos\bin\CrearObjetos.DLL.dll
+D:\CreateObjects\CreadorObjetos\bin\FluentData.dll
+D:\CreateObjects\CreadorObjetos\bin\CrearObjetos.BLL.pdb
+D:\CreateObjects\CreadorObjetos\bin\CrearObjetos.DTO.pdb
+D:\CreateObjects\CreadorObjetos\bin\EntityFramework.xml
+D:\CreateObjects\CreadorObjetos\bin\Newtonsoft.Json.xml
+D:\CreateObjects\CreadorObjetos\bin\System.Net.Http.Formatting.xml
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Http.xml
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Http.WebHost.xml
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Mvc.xml
+D:\CreateObjects\CreadorObjetos\bin\System.Web.Razor.xml
+D:\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.xml
+D:\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.Deployment.xml
+D:\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.Razor.xml
+D:\CreateObjects\CreadorObjetos\bin\CrearObjetos.DLL.pdb
+D:\CreateObjects\CreadorObjetos\obj\Debug\CreadorObjetos.csprojResolveAssemblyReference.cache
+D:\CreateObjects\CreadorObjetos\obj\Debug\CreadorObjetos.dll
+D:\CreateObjects\CreadorObjetos\obj\Debug\CreadorObjetos.pdb

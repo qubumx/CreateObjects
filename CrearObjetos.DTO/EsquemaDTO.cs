@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CrearObjetos.DTO
 {
-    public class EsquemaDTO
+    public class EsquemaDTO : TablaDTO
     {
-        public String NombreEsquema { get; set; }
+        public string NombreEsquema { get; set; }
     }
 }

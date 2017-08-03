@@ -74,7 +74,7 @@ namespace CrearObjetos.BLL
             this.cuerpoSP.Append("USE [" + baseDatos.NombreBaseDatos + "]" + Environment.NewLine); 
             this.cuerpoSP.Append("GO" + Environment.NewLine);
             this.cuerpoSP.Append("-- =============================================" + Environment.NewLine);
-            this.cuerpoSP.Append("-- Autor          :" + usuarioProyecto.NombreColaborador + Environment.NewLine);
+            //this.cuerpoSP.Append("-- Autor          :" + usuarioProyecto.NombreColaborador + Environment.NewLine);
             this.cuerpoSP.Append("-- Fecha Creacion :" + System.DateTime.Now.ToString() + Environment.NewLine);
             this.cuerpoSP.Append("-- Sistema        :" + proyecto.NombreProyecto + Environment.NewLine);
             this.cuerpoSP.Append("-- Descripcion    :" + "" + this.accionCRUD + " tabla " + this.nombreTabla + Environment.NewLine);
@@ -87,7 +87,7 @@ namespace CrearObjetos.BLL
 
             this.accionCRUD = "Seleccionar los registros de la ";
             CrearSPEncabezado(proyecto, usuarioProyecto, baseDatos);
-            this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema,tabla);
+            //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema,tabla);
 
             if (this.respuestaTabla.StatusType == StatusType.Ok)
             {
@@ -189,7 +189,7 @@ namespace CrearObjetos.BLL
 
                 this.cuerpoSP.Append("CREATE PROCEDURE [" + esquema.NombreEsquema + "].[Sp_pi_" + tabla1 + "]" + Environment.NewLine);
 
-                this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+                //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
                 this.respuestaTabla.ListRecords.RemoveAll(tbl => (tbl.EsPK == true) || (tbl.NombreColumna == "UsuarioUpd") || (tbl.NombreColumna == "FechaUpd") || (tbl.NombreColumna == "Activo") || (tbl.NombreColumna == "FechaIns"));
                 int contador = 0;
                 foreach (InformacionTablaDTO item in this.respuestaTabla.ListRecords)
@@ -293,7 +293,7 @@ namespace CrearObjetos.BLL
             this.accionCRUD = "Actualizar un registro de la ";
             CrearSPEncabezado(proyecto, usuarioProyecto, baseDatos);
 
-            this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
             if (this.respuestaTabla.StatusType == StatusType.Ok)
             {
                 String tabla1 = tabla.NombreTabla;
@@ -422,7 +422,7 @@ namespace CrearObjetos.BLL
             Response<String> response = new Response<String>();
             this.accionCRUD = "Eliminar (Eliminación Lógica) un registro de la ";
             CrearSPEncabezado(proyecto, usuarioProyecto, baseDatos);
-            this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
 
             if (this.respuestaTabla.StatusType == StatusType.Ok)
             {
@@ -548,7 +548,7 @@ namespace CrearObjetos.BLL
             Response<String> response = new Response<String>();
             this.accionCRUD = "Seleccionar registros filtrados de la ";
             CrearSPEncabezado(proyecto, usuarioProyecto, baseDatos);
-            this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
 
             if (this.respuestaTabla.StatusType == StatusType.Ok)
             {

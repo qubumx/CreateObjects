@@ -8,8 +8,9 @@ namespace CrearObjetos.DTO
 {
     public class TablaDTO
     {
-        public String Esquema { get; set; }
-        public String NombreTabla { get; set; }
-        public String OtraPropiedad { get; set; }
+        public string Esquema { get; set; }
+        public string NombreTabla { get; set; }
+        public string OtraPropiedad { get; set; }
+        public List<InformacionTablaDTO> lstInInformacionTabla { get; set; }
     }
 }

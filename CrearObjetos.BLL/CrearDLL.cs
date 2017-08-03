@@ -30,7 +30,7 @@ namespace CrearObjetos.BLL
         {
             Response<String> response = new Response<String>();            
 
-            this.ResponseTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            //this.ResponseTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
 
             if (this.ResponseTabla.StatusType == StatusType.Ok)
             {

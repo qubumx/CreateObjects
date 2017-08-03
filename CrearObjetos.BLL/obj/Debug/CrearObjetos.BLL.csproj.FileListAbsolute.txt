@@ -28,3 +28,13 @@ C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.BLL\bin\De
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.BLL\obj\Debug\CrearObjetos.BLL.csprojResolveAssemblyReference.cache
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.BLL\obj\Debug\CrearObjetos.BLL.dll
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.BLL\obj\Debug\CrearObjetos.BLL.pdb
+D:\CreateObjects\CrearObjetos.BLL\bin\Debug\CrearObjetos.BLL.dll
+D:\CreateObjects\CrearObjetos.BLL\bin\Debug\CrearObjetos.BLL.pdb
+D:\CreateObjects\CrearObjetos.BLL\bin\Debug\CrearObjetos.DLL.dll
+D:\CreateObjects\CrearObjetos.BLL\bin\Debug\CrearObjetos.DTO.dll
+D:\CreateObjects\CrearObjetos.BLL\bin\Debug\FluentData.dll
+D:\CreateObjects\CrearObjetos.BLL\bin\Debug\CrearObjetos.DLL.pdb
+D:\CreateObjects\CrearObjetos.BLL\bin\Debug\CrearObjetos.DTO.pdb
+D:\CreateObjects\CrearObjetos.BLL\obj\Debug\CrearObjetos.BLL.csprojResolveAssemblyReference.cache
+D:\CreateObjects\CrearObjetos.BLL\obj\Debug\CrearObjetos.BLL.dll
+D:\CreateObjects\CrearObjetos.BLL\obj\Debug\CrearObjetos.BLL.pdb

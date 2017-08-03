@@ -12,3 +12,10 @@ C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.DLL\bin\De
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.DLL\obj\Debug\CrearObjetos.DLL.csprojResolveAssemblyReference.cache
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.DLL\obj\Debug\CrearObjetos.DLL.dll
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CrearObjetos.DLL\obj\Debug\CrearObjetos.DLL.pdb
+D:\CreateObjects\CrearObjetos.DLL\bin\Debug\CrearObjetos.DLL.dll
+D:\CreateObjects\CrearObjetos.DLL\bin\Debug\CrearObjetos.DLL.pdb
+D:\CreateObjects\CrearObjetos.DLL\bin\Debug\CrearObjetos.DTO.dll
+D:\CreateObjects\CrearObjetos.DLL\bin\Debug\CrearObjetos.DTO.pdb
+D:\CreateObjects\CrearObjetos.DLL\obj\Debug\CrearObjetos.DLL.csprojResolveAssemblyReference.cache
+D:\CreateObjects\CrearObjetos.DLL\obj\Debug\CrearObjetos.DLL.dll
+D:\CreateObjects\CrearObjetos.DLL\obj\Debug\CrearObjetos.DLL.pdb

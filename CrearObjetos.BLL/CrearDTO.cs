@@ -22,10 +22,12 @@ namespace CrearObjetos.BLL
         }
 
         //public Response<InformacionTablaDTO> ConstruccionDTO(EsquemaDTO esquema, TablaDTO tabla)
-        public Response<String> ConstruccionDTO(EsquemaDTO esquema, TablaDTO tabla)
+        //public Response<String> ConstruccionDTO(EsquemaDTO esquema, TablaDTO tabla)
+        public Response<String> ConstruccionDTO(ProyectoDTO proyecto)
         {
             Response<InformacionTablaDTO> responseTabla = new Response<InformacionTablaDTO>();
-            responseTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            //responseTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            responseTabla = UtileriasBLL.Instances.LeerCamposTabla(proyecto);
 
             Response<String> response = new Response<String>();
 
@@ -35,7 +37,7 @@ namespace CrearObjetos.BLL
                 //this.cuerpoDTO.Append("using BS.DTO.Genericas;" + Environment.NewLine);
                 this.cuerpoDTO.Append("" + Environment.NewLine);
                 //this.cuerpoDTO.Append("namespace " + this.nombreBaseDatos + ".DTO." + tabla.NombreTabla + "" + Environment.NewLine);
-                String tabla1 = tabla.NombreTabla;
+                String tabla1 = proyecto.NombreTabla;
                 tabla1 = tabla1.Remove(0, 3);
                 this.cuerpoDTO.Append("namespace Ingram_Obj." + tabla1 + "" + Environment.NewLine);
                 this.cuerpoDTO.Append("{" + Environment.NewLine);
@@ -116,8 +118,8 @@ namespace CrearObjetos.BLL
             else
             {
                 response.StatusType = StatusType.Error;
-                response.UserMessage = "No existe información de la tabla " + tabla.NombreTabla + " filtrada.";
-                Log.LogFile("No existe información de la tabla " + tabla.NombreTabla + " filtrada.", "LeerCamposTabla", "Utilerias", "Administrador");
+                response.UserMessage = "No existe información de la tabla " + proyecto.NombreTabla + " filtrada.";
+                Log.LogFile("No existe información de la tabla " + proyecto.NombreTabla + " filtrada.", "LeerCamposTabla", "Utilerias", "Administrador");
             }
             //return responseTabla;
             

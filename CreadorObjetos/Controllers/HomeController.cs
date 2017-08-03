@@ -20,41 +20,37 @@ namespace CreadorObjetos.Controllers
         }
 
         [HttpGet]
-        public JsonResult ValidarConexion(GestorBaseDatosDTO informacioGestorBaseDatos)
+        public JsonResult ValidarConexion(ProyectoDTO proyecto)
         {
-            Response<Boolean> ResponseValidarConexion = UtileriasBLL.Instances.ValidarConexion(informacioGestorBaseDatos);
-            return Json(ResponseValidarConexion, JsonRequestBehavior.AllowGet);     
+            Response<bool> ResponseValidarConexion = UtileriasBLL.Instances.ValidarConexion(proyecto);
+            return Json(ResponseValidarConexion, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult ObtenerBaseDatos()
+        public JsonResult ObtenerBaseDatos(ProyectoDTO proyecto)
         {
-            Response<BaseDatosDTO> ResponseBaseDatos = UtileriasBLL.Instances.ObtenerBaseDatos();
-            return Json(ResponseBaseDatos, JsonRequestBehavior.AllowGet);                        
+            Response<BaseDatosDTO> ResponseBaseDatos = UtileriasBLL.Instances.ObtenerBaseDatos(proyecto);
+            return Json(ResponseBaseDatos, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult ObtenerEsquemas(String baseDatos)
-        {            
-            BaseDatosDTO objBaseDatos = new BaseDatosDTO { NombreBaseDatos = baseDatos };
-            Response<EsquemaDTO> ResponseEsquema = UtileriasBLL.Instances.ObtenerEsquemas(objBaseDatos);
+        public JsonResult ObtenerEsquemas(ProyectoDTO proyecto)
+        {
+            Response<EsquemaDTO> ResponseEsquema = UtileriasBLL.Instances.ObtenerEsquemas(proyecto);
             return Json(ResponseEsquema, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult ObtenerTablas(String baseDatos, String esquema)
+        public JsonResult ObtenerTablas(ProyectoDTO proyecto)
         {
-            //Utilerias ObjUtilerias = new Utilerias { baseDatos = baseDatos, esquemaTabla = esquema };
-            BaseDatosDTO objBaseDatos = new BaseDatosDTO { NombreBaseDatos = baseDatos };
-            EsquemaDTO objEsquema = new EsquemaDTO { NombreEsquema = esquema };
-            Response<TablaDTO> ResponseTabla = UtileriasBLL.Instances.ObtenerTablas(objBaseDatos, objEsquema);
+            Response<TablaDTO> ResponseTabla = UtileriasBLL.Instances.ObtenerTablas(proyecto);
             return Json(ResponseTabla, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult ObtenerTablasOracle(GestorBaseDatosDTO informacioGestorBaseDatos)
+        public JsonResult ObtenerTablasOracle(ProyectoDTO proyecto)
         {
-            Response<TablaDTO> ResponseTabla = UtileriasBLL.Instances.ObtenerTablasOracle(informacioGestorBaseDatos);
+            Response<TablaDTO> ResponseTabla = UtileriasBLL.Instances.ObtenerTablasOracle(proyecto);
             return Json(ResponseTabla, JsonRequestBehavior.AllowGet);
         }
 
@@ -66,43 +62,46 @@ namespace CreadorObjetos.Controllers
             return Json(ResponseProyectos, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public JsonResult ObtenerUsuariosProyecto(int proyectoId)
-        {            
-            ProyectoDTO objProyecto = new ProyectoDTO { ProyectoId = proyectoId };
-            Response<UsuarioProyectoDTO> ResponseUsuarioProyecto = UtileriasBLL.Instances.ObtenerUsuariosProyecto(objProyecto);
-            return Json(ResponseUsuarioProyecto, JsonRequestBehavior.AllowGet);
-        }
+        //[HttpGet]
+        //public JsonResult ObtenerUsuariosProyecto(int proyectoId)
+        //{
+        //    ProyectoDTO objProyecto = new ProyectoDTO { ProyectoId = proyectoId };
+        //    Response<UsuarioProyectoDTO> ResponseUsuarioProyecto = UtileriasBLL.Instances.ObtenerUsuariosProyecto(objProyecto);
+        //    return Json(ResponseUsuarioProyecto, JsonRequestBehavior.AllowGet);
+        //}
 
         [HttpGet]
-        public JsonResult GenerarObjetos(String baseDatos, String esquema, String tabla, int proyectoId, int usuarioIdProyecto)
+        //public JsonResult GenerarObjetos(String baseDatos, String esquema, String tabla, int proyectoId, int usuarioIdProyecto)
+        public JsonResult GenerarObjetos(ProyectoDTO proyecto)
         {
-            BaseDatosDTO objBaseDatos = new BaseDatosDTO { NombreBaseDatos = baseDatos };
-            EsquemaDTO objEsquema = new EsquemaDTO { NombreEsquema = esquema };
-            TablaDTO objTabla = new TablaDTO { NombreTabla = tabla };
-            UsuarioProyectoDTO objUsuarioProyecto = new UsuarioProyectoDTO { ProyectoId = proyectoId, UsuarioProyectoId = usuarioIdProyecto };
-            ProyectoDTO objProyecto = new ProyectoDTO { NombreProyecto = null, ProyectoId = proyectoId };
+            string valor = string.Empty;
+            //BaseDatosDTO objBaseDatos = new BaseDatosDTO { NombreBaseDatos = baseDatos };
+            //EsquemaDTO objEsquema = new EsquemaDTO { NombreEsquema = esquema };
+            //TablaDTO objTabla = new TablaDTO { NombreTabla = tabla };
+            //UsuarioProyectoDTO objUsuarioProyecto = new UsuarioProyectoDTO { ProyectoId = proyectoId, UsuarioProyectoId = usuarioIdProyecto };
+            //ProyectoDTO objProyecto = new ProyectoDTO { NombreProyecto = null, ProyectoId = proyectoId };
 
 
-            Response<InformacionTablaDTO> ResponseTabla = new Response<InformacionTablaDTO>();
-            Response<ProyectoDTO> ResponseProyectos = UtileriasBLL.Instances.ObtenerProyectos(objProyecto);
-            IEnumerable<ProyectoDTO> proyecto = from pro in ResponseProyectos.ListRecords
-                                             where pro.ProyectoId == proyectoId
-                                             select pro;
-            objProyecto.NombreProyecto = proyecto.Single().NombreProyecto;
+            //Response<InformacionTablaDTO> ResponseTabla = new Response<InformacionTablaDTO>();
+            //Response<ProyectoDTO> ResponseProyectos = UtileriasBLL.Instances.ObtenerProyectos(objProyecto);
+            //IEnumerable<ProyectoDTO> proyecto = from pro in ResponseProyectos.ListRecords
+            //                                 where pro.ProyectoId == proyectoId
+            //                                 select pro;
+            //objProyecto.NombreProyecto = proyecto.Single().NombreProyecto;
 
 
-            Response<UsuarioProyectoDTO> ResponseUsuarioProyecto = UtileriasBLL.Instances.ObtenerUsuariosProyecto(objProyecto);
-            IEnumerable<UsuarioProyectoDTO> usuarioProyecto = from pro in ResponseUsuarioProyecto.ListRecords
-                                                              where pro.UsuarioProyectoId == usuarioIdProyecto
-                                                              select pro;
-            objUsuarioProyecto.NombreColaborador = usuarioProyecto.Single().NombreColaborador;
+            //Response<UsuarioProyectoDTO> ResponseUsuarioProyecto = UtileriasBLL.Instances.ObtenerUsuariosProyecto(objProyecto);
+            //IEnumerable<UsuarioProyectoDTO> usuarioProyecto = from pro in ResponseUsuarioProyecto.ListRecords
+            //                                                  where pro.UsuarioProyectoId == usuarioIdProyecto
+            //                                                  select pro;
+            //objUsuarioProyecto.NombreColaborador = usuarioProyecto.Single().NombreColaborador;
 
-            Response<String> responseCrearDTO = CrearDTO.Instances.ConstruccionDTO(objEsquema, objTabla);
+            //Response<String> responseCrearDTO = CrearDTO.Instances.ConstruccionDTO(objEsquema, objTabla);
+            Response<String> responseCrearDTO = CrearDTO.Instances.ConstruccionDTO(proyecto);
 
-            Response<String> responseCrearSP = CrearSP.Instances.SPSCRUD(objEsquema, objTabla, objProyecto, objUsuarioProyecto, objBaseDatos);
+            //Response<String> responseCrearSP = CrearSP.Instances.SPSCRUD(objEsquema, objTabla, objProyecto, objUsuarioProyecto, objBaseDatos);
 
-            Response<String> responseCrearDLL = CrearDLL.Instances.ConstruccionBusiness(objEsquema, objTabla);
+            //Response<String> responseCrearDLL = CrearDLL.Instances.ConstruccionBusiness(objEsquema, objTabla);
 
 
             //CrearWSDTO ObjCrearWSDTO = new CrearWSDTO { esquemaTabla = esquema, nombreTabla = tabla, nombreBaseDatos = baseDatos };
@@ -117,8 +116,9 @@ namespace CreadorObjetos.Controllers
             //ObjCrearWSBLL.ConstruccionWSBLL();
 
             //return Json(new { ObjCrearSP, ObjCrearDTO, ObjCrearBusiness, ObjCrearWSDTO, ObjCrearWSDLL, ObjCrearWSBLL }, JsonRequestBehavior.AllowGet);
-            return Json(new { responseCrearDTO, responseCrearSP, responseCrearDLL }, JsonRequestBehavior.AllowGet);
-        }
+            //return Json(new { responseCrearDTO, responseCrearSP, responseCrearDLL }, JsonRequestBehavior.AllowGet);
 
+            return null;
+        }
     }
 }

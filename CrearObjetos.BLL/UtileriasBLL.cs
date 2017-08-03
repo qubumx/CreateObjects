@@ -7,11 +7,11 @@ namespace CrearObjetos.BLL
 {
     public class UtileriasBLL : Instance<UtileriasBLL>
     {
-        public Response<Boolean> ValidarConexion(GestorBaseDatosDTO informacioGestorBaseDatos)
+        public Response<bool> ValidarConexion(GestorBaseDatosDTO informacioGestorBaseDatos)
         {
 
-            Response<Boolean> respuesta = new Response<Boolean>();
-            Response<String> respuestaCadenaConexion = new Response<String>();
+            Response<bool> respuesta = new Response<bool>();
+            Response<string> respuestaCadenaConexion = new Response<string>();
 
             if (informacioGestorBaseDatos == null)
             {
@@ -25,34 +25,72 @@ namespace CrearObjetos.BLL
             switch (informacioGestorBaseDatos.GestorBaseDatos)
             {
                 case EnumGestorBaseDatos.MicrosoftSQLServer:
-                    respuestaCadenaConexion = ArmarCadenaConexionOracle(informacioGestorBaseDatos);
-                    respuesta = CrearObjetos.DLL.UtileriasDLL.Instances.ValidarCadenaConexion(respuestaCadenaConexion.ResponseType.ToString(), informacioGestorBaseDatos.GestorBaseDatos);
+                    respuestaCadenaConexion = ArmarCadenaConexionMicrosoftSQLServer(informacioGestorBaseDatos);
+                    //respuesta = DLL.UtileriasDLL.Instances.ValidarCadenaConexion(respuestaCadenaConexion.ResponseType.ToString(), informacioGestorBaseDatos.GestorBaseDatos);
                     break;
                 case EnumGestorBaseDatos.Oracle:
                     respuestaCadenaConexion = ArmarCadenaConexionOracle(informacioGestorBaseDatos);
-                    respuesta = CrearObjetos.DLL.UtileriasDLL.Instances.ValidarCadenaConexion(respuestaCadenaConexion.ResponseType.ToString(), informacioGestorBaseDatos.GestorBaseDatos);
+                    //respuesta = DLL.UtileriasDLL.Instances.ValidarCadenaConexion(respuestaCadenaConexion.ResponseType.ToString(), informacioGestorBaseDatos.GestorBaseDatos);
+                    break;
+            }
+                        
+            return DLL.UtileriasDLL.Instances.ValidarCadenaConexion(respuestaCadenaConexion.ResponseType.ToString(), informacioGestorBaseDatos.GestorBaseDatos);
+        }
+        
+        public Response<BaseDatosDTO> ObtenerBaseDatos(GestorBaseDatosDTO informacioGestorBaseDatos)
+        {
+            Response<string> respuestaCadenaConexion = new Response<string>();
+
+            switch (informacioGestorBaseDatos.GestorBaseDatos)
+            {
+                case EnumGestorBaseDatos.MicrosoftSQLServer:
+                    respuestaCadenaConexion = ArmarCadenaConexionMicrosoftSQLServer(informacioGestorBaseDatos);                    
+                    break;
+                case EnumGestorBaseDatos.Oracle:
+                    respuestaCadenaConexion = ArmarCadenaConexionOracle(informacioGestorBaseDatos);                    
                     break;
             }
 
-            return respuesta;
-        }
-        
-        public Response<BaseDatosDTO> ObtenerBaseDatos()
-        {
-            Response<BaseDatosDTO> response = CrearObjetos.DLL.UtileriasDLL.Instances.ObtenerBaseDatos();
-            return response;
+            return DLL.UtileriasDLL.Instances.ObtenerBaseDatos(respuestaCadenaConexion.ResponseType);
         }
 
-        public Response<EsquemaDTO> ObtenerEsquemas(BaseDatosDTO baseDatos)
+        public Response<EsquemaDTO> ObtenerEsquemas(GestorBaseDatosDTO informacioGestorBaseDatos)
         {
-            Response<EsquemaDTO> response = CrearObjetos.DLL.UtileriasDLL.Instances.ObtenerEsquemas(baseDatos);
-            return response;
+
+            Response<EsquemaDTO> response = new Response<EsquemaDTO>();
+            Response <string> respuestaCadenaConexion = new Response<string>();
+
+            switch (informacioGestorBaseDatos.GestorBaseDatos)
+            {
+                case EnumGestorBaseDatos.MicrosoftSQLServer:
+                    respuestaCadenaConexion = ArmarCadenaConexionMicrosoftSQLServer(informacioGestorBaseDatos);
+                    respuestaCadenaConexion.ResponseType= respuestaCadenaConexion.ResponseType.Replace("master", informacioGestorBaseDatos.NombreBaseDatos);
+                    break;
+                case EnumGestorBaseDatos.Oracle:
+                    respuestaCadenaConexion = ArmarCadenaConexionOracle(informacioGestorBaseDatos);
+                    break;
+            }
+
+            return DLL.UtileriasDLL.Instances.ObtenerEsquemas(informacioGestorBaseDatos, respuestaCadenaConexion.ResponseType);
         }
 
-        public Response<TablaDTO> ObtenerTablas(BaseDatosDTO baseDatos, EsquemaDTO esquemaTabla)
+        public Response<TablaDTO> ObtenerTablas(GestorBaseDatosDTO informacioGestorBaseDatos)
         {
-            Response<TablaDTO> response = CrearObjetos.DLL.UtileriasDLL.Instances.ObtenerTablas(baseDatos, esquemaTabla);
-            return response;
+            Response<TablaDTO> response = new Response<TablaDTO>();
+            Response<string> respuestaCadenaConexion = new Response<string>();
+
+            switch (informacioGestorBaseDatos.GestorBaseDatos)
+            {
+                case EnumGestorBaseDatos.MicrosoftSQLServer:
+                    respuestaCadenaConexion = ArmarCadenaConexionMicrosoftSQLServer(informacioGestorBaseDatos);
+                    respuestaCadenaConexion.ResponseType = respuestaCadenaConexion.ResponseType.Replace("master", informacioGestorBaseDatos.NombreBaseDatos);
+                    break;
+                case EnumGestorBaseDatos.Oracle:
+                    respuestaCadenaConexion = ArmarCadenaConexionOracle(informacioGestorBaseDatos);
+                    break;
+            }
+
+            return DLL.UtileriasDLL.Instances.ObtenerTablas(informacioGestorBaseDatos, respuestaCadenaConexion.ResponseType);
         }
 
         public Response<TablaDTO> ObtenerTablasOracle(GestorBaseDatosDTO informacioGestorBaseDatos)
@@ -70,15 +108,17 @@ namespace CrearObjetos.BLL
             return response;
         }
 
-        public Response<UsuarioProyectoDTO> ObtenerUsuariosProyecto(ProyectoDTO proyecto)
-        {
-            Response<UsuarioProyectoDTO> response = CrearObjetos.DLL.UtileriasDLL.Instances.ObtenerUsuariosProyecto(proyecto);
-            return response;
-        }
+        //public Response<UsuarioProyectoDTO> ObtenerUsuariosProyecto(ProyectoDTO proyecto)
+        //{
+        //    Response<UsuarioProyectoDTO> response = CrearObjetos.DLL.UtileriasDLL.Instances.ObtenerUsuariosProyecto(proyecto);
+        //    return response;
+        //}
 
-        public Response<InformacionTablaDTO> LeerCamposTabla(EsquemaDTO esquema, TablaDTO tabla)
+        //public Response<InformacionTablaDTO> LeerCamposTabla(EsquemaDTO esquema, TablaDTO tabla)
+        public Response<InformacionTablaDTO> LeerCamposTabla(ProyectoDTO proyecto)
         {
-            Response<InformacionTablaDTO> response = CrearObjetos.DLL.UtileriasDLL.Instances.LeerCamposTabla(esquema, tabla);
+            //Response<InformacionTablaDTO> response = DLL.UtileriasDLL.Instances.LeerCamposTabla(esquema, tabla);
+            Response<InformacionTablaDTO> response = DLL.UtileriasDLL.Instances.LeerCamposTabla(proyecto);
             return response;
         }
 
@@ -93,10 +133,8 @@ namespace CrearObjetos.BLL
             Response<String> respuestaSQL = new Response<String>();
             String cadenaConexion = ConfigurationManager.AppSettings["ConexionSQL"].ToString();
 
-            //Data Source=SERVIDOR:PUERTO/NOMBRE_SERVICIO; Persist Security Info=True; User ID=NOMBRE_USUARIO; Password=CONTRASENIA
-            cadenaConexion = cadenaConexion.Replace("SERVIDOR", informacioGestorBaseDatos.Servidor);
-            cadenaConexion = cadenaConexion.Replace("PUERTO", informacioGestorBaseDatos.Puerto.ToString());
-            cadenaConexion = cadenaConexion.Replace("NOMBRE_SERVICIO", informacioGestorBaseDatos.NombreServicio);
+            //Data Source = SERVIDOR; Initial Catalog = BASE_DATOS; User Id = NOMBRE_USUARIO; Password = CONTRASENIA
+            cadenaConexion = cadenaConexion.Replace("SERVIDOR", informacioGestorBaseDatos.Servidor);           
             cadenaConexion = cadenaConexion.Replace("NOMBRE_USUARIO", informacioGestorBaseDatos.NombreUsuario);
             cadenaConexion = cadenaConexion.Replace("CONTRASENIA", informacioGestorBaseDatos.Contrasenia);
             respuestaSQL.ResponseType = cadenaConexion;

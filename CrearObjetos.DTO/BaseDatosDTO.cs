@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace CrearObjetos.DTO
 {
-    public class BaseDatosDTO
+    public class BaseDatosDTO 
     {
-        public String NombreBaseDatos { get; set; }
+        public string NombreBaseDatos { get; set; }
+        public string NombreEsquema { get; set; }       
+        public string NombreTabla { get; set; }
+        public List<InformacionTablaDTO> lstInInformacionTabla { get; set; }
     }
 }

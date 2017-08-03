@@ -8,11 +8,11 @@ namespace CrearObjetos.DTO
 {
     public class InformacionTablaDTO
     {
-        public String NombreColumna { get; set; }
-        public String TipoDato { get; set; }
+        public string NombreColumna { get; set; }
+        public string TipoDato { get; set; }
         public Int32 LongitudMaxima { get; set; }
-        public Boolean CampoNulo { get; set; }
-        public Boolean EsPK { get; set; }
-        public Boolean EsFK { get; set; }
+        public bool CampoNulo { get; set; }
+        public bool EsPK { get; set; }
+        public bool EsFK { get; set; }
     }
 }

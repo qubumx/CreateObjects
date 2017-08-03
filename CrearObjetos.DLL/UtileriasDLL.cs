@@ -6,11 +6,12 @@ using System.Data.SqlClient;
 namespace CrearObjetos.DLL
 {
     public class UtileriasDLL : Instance<UtileriasDLL>
-    { 
+    {
+        string query = string.Empty;
 
-        public Response<Boolean> ValidarCadenaConexion(String cadena, EnumGestorBaseDatos gestorBaseDatos)
+        public Response<bool> ValidarCadenaConexion(string cadena, EnumGestorBaseDatos gestorBaseDatos)
         {
-            Response<Boolean> respuestaValidarCadenaConexion = new Response<Boolean>();
+            Response<bool> respuestaValidarCadenaConexion = new Response<bool>();
             try
             {
                 switch (gestorBaseDatos)
@@ -34,8 +35,6 @@ namespace CrearObjetos.DLL
                     default:
                         break;
                 }
-
-
             }
             catch (Exception e)
             {
@@ -48,15 +47,19 @@ namespace CrearObjetos.DLL
             return respuestaValidarCadenaConexion;
         }
 
-        public Response<BaseDatosDTO> ObtenerBaseDatos()
+        public Response<BaseDatosDTO> ObtenerBaseDatos(string cadena)
         {
             Response<BaseDatosDTO> ObjBaseDatos = new Response<BaseDatosDTO>();
-            using (var context = DAL.DAL.Context())
+           
+            using (var context = DAL.DAL.ContextSQL(cadena))
             {
                 try
                 {
-                    ObjBaseDatos.ListRecords = context.StoredProcedure("[dbo].[BasesDatosSel]").QueryMany<BaseDatosDTO>();
+                    query = "SELECT name NombreBaseDatos FROM sys.databases ORDER BY name; ";
+
+                    ObjBaseDatos.ListRecords = context.Sql(query).QueryMany<BaseDatosDTO>();
                     ObjBaseDatos.RecordsCount = ObjBaseDatos.ListRecords.Count;
+
                     if (ObjBaseDatos.RecordsCount > 0)
                     {
                         ObjBaseDatos.UserMessage = "Se obtuvo correctamente la información correspondiente a la base de datos.";
@@ -65,7 +68,7 @@ namespace CrearObjetos.DLL
                     {
                         ObjBaseDatos.UserMessage = "No se cuenta con información correspondiente a la base de datos.";
                     }
-
+                    query = string.Empty;
                 }
                 catch (SqlException sqlex)
                 {
@@ -84,52 +87,56 @@ namespace CrearObjetos.DLL
             return ObjBaseDatos;
         }
 
-        public Response<EsquemaDTO> ObtenerEsquemas(BaseDatosDTO baseDatos)
+        public Response<EsquemaDTO> ObtenerEsquemas(GestorBaseDatosDTO informacioGestorBaseDatos, string cadena)
         {
-            Response<EsquemaDTO> ObjTablas = new Response<EsquemaDTO>();
-            using (var context = DAL.DAL.Context())
+            Response<EsquemaDTO> ObjEsquema = new Response<EsquemaDTO>();
+            using (var context = DAL.DAL.ContextSQL(cadena))
             {
                 try
                 {
-                    ObjTablas.ListRecords = context.StoredProcedure("[dbo].[EsquemasFilSel]")
-                                            .Parameter("BaseDatos", baseDatos.NombreBaseDatos)
-                                            .QueryMany<EsquemaDTO>();
-                    if (ObjTablas.RecordsCount > 0)
+                    query = "SELECT DISTINCT(TABLE_SCHEMA) AS NombreEsquema FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_CATALOG='" + informacioGestorBaseDatos.NombreBaseDatos + "' ORDER BY TABLE_SCHEMA";
+
+                    ObjEsquema.ListRecords = context.Sql(query).QueryMany<EsquemaDTO>();
+                    ObjEsquema.RecordsCount = ObjEsquema.ListRecords.Count;
+
+                    if (ObjEsquema.RecordsCount > 0)
                     {
-                        ObjTablas.UserMessage = "Se obtuvo correctamente la información correspondiente a la base de datos.";
+                        ObjEsquema.UserMessage = "Se obtuvo correctamente la información correspondiente a la base de datos.";
                     }
                     else
                     {
-                        ObjTablas.UserMessage = "No se cuenta con información correspondiente a la base de datos.";
+                        ObjEsquema.UserMessage = "No se cuenta con información correspondiente a la base de datos.";
                     }
+                    query = string.Empty;
                 }
                 catch (SqlException sqlex)
                 {
-                    ObjTablas.StatusType = StatusType.Error;
-                    ObjTablas.UserMessage = "Error SQL, Al obtener las bases de datos.";
+                    ObjEsquema.StatusType = StatusType.Error;
+                    ObjEsquema.UserMessage = "Error SQL, Al obtener las bases de datos.";
                     Log.LogFile(sqlex.Message, "ObtenerEsquemas", "Utilerias", "Administrador");
                 }
                 catch (Exception ex)
                 {
-                    ObjTablas.StatusType = StatusType.Error;
-                    ObjTablas.UserMessage = "Error SYS, Al obtener las bases de datos.";
+                    ObjEsquema.StatusType = StatusType.Error;
+                    ObjEsquema.UserMessage = "Error SYS, Al obtener las bases de datos.";
                     Log.LogFile(ex.Message, "ObtenerEsquemas", "Utilerias", "Administrador");
                 }
             }
-            return ObjTablas;
+            return ObjEsquema;
         }
 
-        public Response<TablaDTO> ObtenerTablas(BaseDatosDTO baseDatos, EsquemaDTO esquemaTabla)
+        public Response<TablaDTO> ObtenerTablas(GestorBaseDatosDTO informacioGestorBaseDatos, string cadena)
         {
             Response<TablaDTO> ObjTablas = new Response<TablaDTO>();
-            using (var context = DAL.DAL.Context())
+            using (var context = DAL.DAL.ContextSQL(cadena))
             {
                 try
                 {
-                    ObjTablas.ListRecords = context.StoredProcedure("[dbo].[TablasFilSel]")
-                                            .Parameter("BaseDatos", baseDatos.NombreBaseDatos)
-                                            .Parameter("EsquemaTabla", esquemaTabla.NombreEsquema)
-                                            .QueryMany<TablaDTO>();
+                    query = "SELECT TABLE_SCHEMA Esquema, TABLE_NAME AS NombreTabla FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_CATALOG='" + informacioGestorBaseDatos.NombreBaseDatos + "' AND TABLE_SCHEMA='" + informacioGestorBaseDatos.NombreEsquema + "' ORDER BY TABLE_NAME";
+                    
+                    ObjTablas.ListRecords = context.Sql(query).QueryMany<TablaDTO>();
+                    ObjTablas.RecordsCount = ObjTablas.ListRecords.Count;
+
                     if (ObjTablas.RecordsCount > 0)
                     {
                         ObjTablas.UserMessage = "Se obtuvo correctamente la información correspondiente a la base de datos.";
@@ -230,42 +237,43 @@ namespace CrearObjetos.DLL
             return ObjTablas;
         }
 
-        public Response<UsuarioProyectoDTO> ObtenerUsuariosProyecto(ProyectoDTO proyecto)
-        {
-            Response<UsuarioProyectoDTO> ObjTablas = new Response<UsuarioProyectoDTO>();
-            using (var context = DAL.DAL.Context())
-            {
-                try
-                {
-                    ObjTablas.ListRecords = context.StoredProcedure("[dbo].[UsuariosProyectoFilSel]")
-                                            .Parameter("ProyectoId", proyecto.ProyectoId)
-                                            .QueryMany<UsuarioProyectoDTO>();
-                    if (ObjTablas.RecordsCount > 0)
-                    {
-                        ObjTablas.UserMessage = "Se obtuvo correctamente la información correspondiente a la base de datos.";
-                    }
-                    else
-                    {
-                        ObjTablas.UserMessage = "No se cuenta con información correspondiente a la base de datos.";
-                    }
-                }
-                catch (SqlException sqlex)
-                {
-                    ObjTablas.StatusType = StatusType.Error;
-                    ObjTablas.UserMessage = "Error SQL, Al obtener las bases de datos.";
-                    Log.LogFile(sqlex.Message, "ObtenerUsuariosProyecto", "Utilerias", "Administrador");
-                }
-                catch (Exception ex)
-                {
-                    ObjTablas.StatusType = StatusType.Error;
-                    ObjTablas.UserMessage = "Error SYS, Al obtener las bases de datos.";
-                    Log.LogFile(ex.Message, "ObtenerUsuariosProyecto", "Utilerias", "Administrador");
-                }
-            }
-            return ObjTablas;
-        }
+        //public Response<UsuarioProyectoDTO> ObtenerUsuariosProyecto(ProyectoDTO proyecto)
+        //{
+        //    Response<UsuarioProyectoDTO> ObjTablas = new Response<UsuarioProyectoDTO>();
+        //    using (var context = DAL.DAL.Context())
+        //    {
+        //        try
+        //        {
+        //            ObjTablas.ListRecords = context.StoredProcedure("[dbo].[UsuariosProyectoFilSel]")
+        //                                    .Parameter("ProyectoId", proyecto.ProyectoId)
+        //                                    .QueryMany<UsuarioProyectoDTO>();
+        //            if (ObjTablas.RecordsCount > 0)
+        //            {
+        //                ObjTablas.UserMessage = "Se obtuvo correctamente la información correspondiente a la base de datos.";
+        //            }
+        //            else
+        //            {
+        //                ObjTablas.UserMessage = "No se cuenta con información correspondiente a la base de datos.";
+        //            }
+        //        }
+        //        catch (SqlException sqlex)
+        //        {
+        //            ObjTablas.StatusType = StatusType.Error;
+        //            ObjTablas.UserMessage = "Error SQL, Al obtener las bases de datos.";
+        //            Log.LogFile(sqlex.Message, "ObtenerUsuariosProyecto", "Utilerias", "Administrador");
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            ObjTablas.StatusType = StatusType.Error;
+        //            ObjTablas.UserMessage = "Error SYS, Al obtener las bases de datos.";
+        //            Log.LogFile(ex.Message, "ObtenerUsuariosProyecto", "Utilerias", "Administrador");
+        //        }
+        //    }
+        //    return ObjTablas;
+        //}
 
-        public Response<InformacionTablaDTO> LeerCamposTabla(EsquemaDTO esquema, TablaDTO tabla)
+        //public Response<InformacionTablaDTO> LeerCamposTabla(EsquemaDTO esquema, TablaDTO tabla)
+        public Response<InformacionTablaDTO> LeerCamposTabla(ProyectoDTO proyecto)
         {
             Response<InformacionTablaDTO> ObjTablas = new Response<InformacionTablaDTO>();
             using (var context = DAL.DAL.Context())
@@ -273,7 +281,7 @@ namespace CrearObjetos.DLL
                 try
                 {
                     ObjTablas.ListRecords = context.StoredProcedure("[dbo].[InformacionTablaFilSel]")
-                                            .Parameter("Tabla", esquema.NombreEsquema + "." + tabla.NombreTabla)
+                                            .Parameter("Tabla", proyecto.NombreEsquema + "." + proyecto.NombreTabla)
                                             .QueryMany<InformacionTablaDTO>();
                     if (ObjTablas.RecordsCount > 0)
                     {

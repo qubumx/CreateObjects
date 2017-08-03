@@ -2,8 +2,8 @@
     Inicial: function () {
 
         GestionarCrearObjetos.InicializarControles();
-        GestionarCrearObjetos.CargarBaseDatos();
-        GestionarCrearObjetos.CargarProyectos();
+        //GestionarCrearObjetos.CargarBaseDatos();
+        //GestionarCrearObjetos.CargarProyectos();
         ////////////GestionarCrearObjetos.ConfiguracionCodeMirror();
 
         $("#ddlBaseDatos").change(function () {
@@ -66,18 +66,18 @@
 
         $.ajax({
             type: 'GET',
-            //Llamado al metodo en el controlador
             url: 'Home/ValidarConexion',
             contentType: "application/json;",
             dataType: "json",
-            //Parametros que se envian al metodo del controlador
             data: GestorBaseDatos,
-            //En caso de resultado exitoso
             success: function (response) {
                 if (response.ResponseType === true) {
 
                     alert(response.UserMessage);
 
+                    $('#divInfoProyecto').show();
+                    $('#divUtilerias').show();
+                    
                     switch (GestorBaseDatos.GestorBaseDatos) {
                         case 1:
                             GestionarCrearObjetos.CargarBaseDatos();
@@ -93,46 +93,41 @@
             },
             complete: function () {
 
-            },
-            //Mensaje de error en caso de fallo
+            },            
             error: function (xhr, textStatus, err) {
                 console.log("readyState: " + xhr.readyState);
                 console.log("responseText: " + xhr.responseText);
                 console.log("status: " + xhr.status);
                 console.log("text status: " + textStatus);
                 console.log("error: " + err);
-
-                //alert("Error " + xhr.status + " " + thrownError + " " + xhr.responseText);
             }
         });
-
     },
 
     InicializarControles: function () {
         $('#PintarObjetos').slideUp();
         $("#divEsquema").slideUp();
         $("#divTabla").slideUp();
-        $("#divUsuariosProyecto").slideUp();
+        //$("#divUsuariosProyecto").slideUp();
 
         $("#ddlBaseDatos").val('');
         $("#ddlEsquema").val('');
         $("#ddlTabla").val('');
         $("#ddlProyecto").val('');
         $("#ddlUsuariosProyecto").val('');
-
     },
 
     CargarBaseDatos: function () {
         $.ajax({
-            type: 'GET',
-            //Llamado al metodo en el controlador
+            type: 'GET',           
             url: 'Home/ObtenerBaseDatos',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            async: true,
-            //En caso de resultado exitoso
+            async: true,            
+            data: GestorBaseDatos,
             success: function (response) {
                 if (response.ListError === null) {
+                    $('#divInfoBD').show();
                     $("#ddlBaseDatos").html('');
                     $("#ddlBaseDatos").append('<option value="">Seleccionar una Base de Datos</option>');
                     $.each(response.ListRecords, function (indice, basedatos) {
@@ -148,34 +143,35 @@
             complete: function () {
                 debugger;
             },
-            //Mensaje de error en caso de fallo
-            //error: function (xhr, ajaxOptions, thrownError) {
-            //error: function (XMLHttpRequest, textStatus, errorThrown) {
             error: function (xhr, textStatus, err) {
                 console.log("readyState: " + xhr.readyState);
                 console.log("responseText: " + xhr.responseText);
                 console.log("status: " + xhr.status);
                 console.log("text status: " + textStatus);
                 console.log("error: " + err);
-
-                //debugger;
-                //alert("Error " + xhr.status + " " + thrownError + " " + xhr.responseText);
-
             }
         });
     },
 
     CargarEsquemas: function (basedatos) {
         if (basedatos != "") {
+
+            GestorBaseDatos = {
+                Servidor: $("#txtNombreServidor").val(),
+                NombreUsuario: $("#txtNombreUsuario").val(),
+                Contrasenia: $("#txtContrasenia").val(),
+                GestorBaseDatos: $("#chkSQL").is(":checked") ? 1 : 2,
+                NombreServicio: $('#txtNombreServicio').val(),
+                Puerto: $('#txtPuerto').val(),
+                NombreBaseDatos: basedatos
+            };
+            
             $.ajax({
                 type: 'GET',
-                //Llamado al metodo en el controlador
                 url: 'Home/ObtenerEsquemas',
                 contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                //Parametros que se envian al metodo del controlador
-                data: { baseDatos: basedatos },
-                //En caso de resultado exitoso
+                dataType: "json",               
+                data:GestorBaseDatos,
                 success: function (response) {
                     if (response.ListRecords != null) {
                         if (response.ListRecords.length > 0) {
@@ -209,16 +205,24 @@
     },
 
     CargarTablas: function (basedatos, esquema) {
+        GestorBaseDatos = {
+            Servidor: $("#txtNombreServidor").val(),
+            NombreUsuario: $("#txtNombreUsuario").val(),
+            Contrasenia: $("#txtContrasenia").val(),
+            GestorBaseDatos: $("#chkSQL").is(":checked") ? 1 : 2,
+            NombreServicio: $('#txtNombreServicio').val(),
+            Puerto: $('#txtPuerto').val(),
+            NombreBaseDatos: basedatos,
+            NombreEsquema: esquema
+        };
+
         if (esquema != "") {
             $.ajax({
-                type: 'GET',
-                //Llamado al metodo en el controlador
+                type: 'GET',                
                 url: 'Home/ObtenerTablas',
                 contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                //Parametros que se envian al metodo del controlador
-                data: { basedatos: basedatos, esquema: esquema },
-                //En caso de resultado exitoso
+                dataType: "json",                
+                data: GestorBaseDatos,
                 success: function (response) {
                     if (response.ListRecords != null) {
                         if (response.ListRecords.length > 0) {
@@ -292,108 +296,119 @@
         });
     },
 
-    CargarProyectos: function () {
-        $.ajax({
-            type: 'GET',
-            //Llamado al metodo en el controlador
-            url: 'Home/ObtenerProyectos',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: true,
-            //En caso de resultado exitoso
-            success: function (response) {
-                if (response.ListError === null) {
-                    $("#divUsuariosProyecto").slideDown();
-                    $("#ddlProyecto").html('');
-                    $("#ddlProyecto").append('<option value="">Seleccionar un Proyecto</option>');
-                    $.each(response.ListRecords, function (indice, proyecto) {
-                        $("#ddlProyecto").append('<option value=' + proyecto.ProyectoId + '>' + proyecto.NombreProyecto + '</option>');
-                    });
-                }
-                else {
-                    //GestionarCrearObjetos.ModalMensajesInfo("Error Base de Datos", "Error al obtener información de las bases de datos.");
-                    alert("Error al obtener información del proyecto.");
-                }
-            },
-            complete: function () {
-                debugger;
-            },
-            //Mensaje de error en caso de fallo
-            //error: function (xhr, ajaxOptions, thrownError) {
-            //    debugger;
-            //    alert("Error " + xhr.status + " " + thrownError + " " + xhr.responseText);
-            error: function (xhr, textStatus, err) {
-                console.log("readyState: " + xhr.readyState);
-                console.log("responseText: " + xhr.responseText);
-                console.log("status: " + xhr.status);
-                console.log("text status: " + textStatus);
-                console.log("error: " + err);
+    //CargarProyectos: function () {
+    //    $.ajax({
+    //        type: 'GET',
+    //        //Llamado al metodo en el controlador
+    //        url: 'Home/ObtenerProyectos',
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        async: true,
+    //        //En caso de resultado exitoso
+    //        success: function (response) {
+    //            if (response.ListError === null) {
+    //                $("#divUsuariosProyecto").slideDown();
+    //                $("#ddlProyecto").html('');
+    //                $("#ddlProyecto").append('<option value="">Seleccionar un Proyecto</option>');
+    //                $.each(response.ListRecords, function (indice, proyecto) {
+    //                    $("#ddlProyecto").append('<option value=' + proyecto.ProyectoId + '>' + proyecto.NombreProyecto + '</option>');
+    //                });
+    //            }
+    //            else {
+    //                //GestionarCrearObjetos.ModalMensajesInfo("Error Base de Datos", "Error al obtener información de las bases de datos.");
+    //                alert("Error al obtener información del proyecto.");
+    //            }
+    //        },
+    //        complete: function () {
+    //            debugger;
+    //        },
+    //        //Mensaje de error en caso de fallo
+    //        //error: function (xhr, ajaxOptions, thrownError) {
+    //        //    debugger;
+    //        //    alert("Error " + xhr.status + " " + thrownError + " " + xhr.responseText);
+    //        error: function (xhr, textStatus, err) {
+    //            console.log("readyState: " + xhr.readyState);
+    //            console.log("responseText: " + xhr.responseText);
+    //            console.log("status: " + xhr.status);
+    //            console.log("text status: " + textStatus);
+    //            console.log("error: " + err);
 
-            }
-        });
-    },
+    //        }
+    //    });
+    //},
 
-    CargarUsuariosProyecto: function (proyectoId) {
-        if (proyectoId != "") {
-            $.ajax({
-                type: 'GET',
-                //Llamado al metodo en el controlador
-                url: 'Home/ObtenerUsuariosProyecto',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                //Parametros que se envian al metodo del controlador
-                data: { proyectoId: proyectoId },
-                //En caso de resultado exitoso
-                success: function (response) {
-                    if (response.ListRecords != null) {
-                        if (response.ListRecords.length > 0) {
-                            $("#divUsuariosProyecto").slideDown();
-                            $("#ddlUsuariosProyecto").html('');
-                            $("#ddlUsuariosProyecto").append('<option value="">Seleccionar un Usuario del Proyecto</option>');
-                            $.each(response.ListRecords, function (indice, tabla) {
-                                $("#ddlUsuariosProyecto").append('<option value=' + tabla.UsuarioProyectoId + '>' + tabla.NombreColaborador + '</option>');
-                            });
-                        }
-                        else {
-                            //GestionarCrearObjetos.ModalMensajesInfo("Error Tabla", "Error al obtener información de la Tabla.");
-                            alert("Error al obtener información del proyecto");
-                        }
-                    }
-                    else {
-                        alert("Error al obtener información del proyecto");
-                    }
-                },
-                //Mensaje de error en caso de fallo
-                error: function (xhr, ajaxOptions, thrownError) {
-                    debugger;
-                    alert("Error " + xhr.status + " " + thrownError);
-                }
-            });
-        }
-        else {
-            $("#divUsuariosProyecto").slideDown();
-        }
-    },
+    //CargarUsuariosProyecto: function (proyectoId) {
+    //    if (proyectoId != "") {
+    //        $.ajax({
+    //            type: 'GET',
+    //            //Llamado al metodo en el controlador
+    //            url: 'Home/ObtenerUsuariosProyecto',
+    //            contentType: "application/json; charset=utf-8",
+    //            dataType: "json",
+    //            //Parametros que se envian al metodo del controlador
+    //            data: { proyectoId: proyectoId },
+    //            //En caso de resultado exitoso
+    //            success: function (response) {
+    //                if (response.ListRecords != null) {
+    //                    if (response.ListRecords.length > 0) {
+    //                        $("#divUsuariosProyecto").slideDown();
+    //                        $("#ddlUsuariosProyecto").html('');
+    //                        $("#ddlUsuariosProyecto").append('<option value="">Seleccionar un Usuario del Proyecto</option>');
+    //                        $.each(response.ListRecords, function (indice, tabla) {
+    //                            $("#ddlUsuariosProyecto").append('<option value=' + tabla.UsuarioProyectoId + '>' + tabla.NombreColaborador + '</option>');
+    //                        });
+    //                    }
+    //                    else {
+    //                        //GestionarCrearObjetos.ModalMensajesInfo("Error Tabla", "Error al obtener información de la Tabla.");
+    //                        alert("Error al obtener información del proyecto");
+    //                    }
+    //                }
+    //                else {
+    //                    alert("Error al obtener información del proyecto");
+    //                }
+    //            },
+    //            //Mensaje de error en caso de fallo
+    //            error: function (xhr, ajaxOptions, thrownError) {
+    //                debugger;
+    //                alert("Error " + xhr.status + " " + thrownError);
+    //            }
+    //        });
+    //    }
+    //    else {
+    //        $("#divUsuariosProyecto").slideDown();
+    //    }
+    //},
 
     GenerarObjetos: function () {
-        var objetos = $('.form-control');
+        //var objetos = $('.form-control');
 
-        for (var i = 0; i < objetos.length; i++) {
-            if (objetos[i].value === '') {
-                objetos[i].focus();
-                return;
-            }
-        }
+        //for (var i = 0; i < objetos.length; i++) {
+        //    if (objetos[i].value === '') {
+        //        objetos[i].focus();
+        //        return;
+        //    }
+        //}
+
+        GestorBaseDatos = {
+            Servidor: $("#txtNombreServidor").val(),
+            NombreUsuario: $("#txtNombreUsuario").val(),
+            Contrasenia: $("#txtContrasenia").val(),
+            GestorBaseDatos: $("#chkSQL").is(":checked") ? 1 : 2,
+            NombreServicio: $('#txtNombreServicio').val(),
+            Puerto: $('#txtPuerto').val(),
+            NombreBaseDatos: $("#ddlBaseDatos").val(),
+            NombreEsquema: $("#ddlEsquema").val(),
+            NombreTabla: $("#ddlTabla").val(),
+            NombreProyecto: $("#txtProyecto").val(),
+            NombreColaborador: $("#txtColaborador").val(),
+        };
 
         $.ajax({
             type: 'GET',
-            //Llamado al metodo en el controlador
             url: 'Home/GenerarObjetos',
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            //Parametros que se envian al metodo del controlador
-            data: { baseDatos: $("#ddlBaseDatos").val(), esquema: $("#ddlEsquema").val(), tabla: $("#ddlTabla").val(), proyectoId: $("#ddlProyecto").val(), usuarioIdProyecto: $("#ddlUsuariosProyecto").val() },
-            //En caso de resultado exitoso
+            dataType: "json",            
+            data:GestorBaseDatos,
             success: function (response) {
                 var errores = '';
                 if (response.responseCrearSP.StatusType === 1) {
