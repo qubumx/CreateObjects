@@ -25,9 +25,7 @@ namespace CrearObjetos.BLL
         //public Response<String> ConstruccionDTO(EsquemaDTO esquema, TablaDTO tabla)
         public Response<String> ConstruccionDTO(ProyectoDTO proyecto)
         {
-            Response<InformacionTablaDTO> responseTabla = new Response<InformacionTablaDTO>();
-            //responseTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
-            responseTabla = UtileriasBLL.Instances.LeerCamposTabla(proyecto);
+            Response<InformacionTablaDTO> responseTabla = UtileriasBLL.Instances.LeerCamposTabla(proyecto);
 
             Response<String> response = new Response<String>();
 
@@ -37,12 +35,10 @@ namespace CrearObjetos.BLL
                 //this.cuerpoDTO.Append("using BS.DTO.Genericas;" + Environment.NewLine);
                 this.cuerpoDTO.Append("" + Environment.NewLine);
                 //this.cuerpoDTO.Append("namespace " + this.nombreBaseDatos + ".DTO." + tabla.NombreTabla + "" + Environment.NewLine);
-                String tabla1 = proyecto.NombreTabla;
-                tabla1 = tabla1.Remove(0, 3);
-                this.cuerpoDTO.Append("namespace Ingram_Obj." + tabla1 + "" + Environment.NewLine);
+                this.cuerpoDTO.Append("namespace Ingram_Obj." + proyecto.NombreTabla + "" + Environment.NewLine);
                 this.cuerpoDTO.Append("{" + Environment.NewLine);
                 //this.cuerpoDTO.Append("     public class " + tabla.NombreTabla + " : Auditoria" + Environment.NewLine);
-                this.cuerpoDTO.Append("     public class " + tabla1 + "Obj" + Environment.NewLine);
+                this.cuerpoDTO.Append("     public class " + proyecto.NombreTabla + "Obj" + Environment.NewLine);
                 this.cuerpoDTO.Append("         {" + Environment.NewLine);
 
                 //this.responseTabla.ListRecords.RemoveAll(tbl => (tbl.NombreColumna == "UsuarioIns") || (tbl.NombreColumna == "FechaIns") || (tbl.NombreColumna == "UsuarioUpd") || (tbl.NombreColumna == "FechaUpd"));

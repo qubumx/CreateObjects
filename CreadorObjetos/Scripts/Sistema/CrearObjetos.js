@@ -422,6 +422,7 @@
                         errores += errorDTO + "\n";
                     });
                 }
+                debugger;
 
                 if (response.responseCrearDLL.StatusType === 1) {
                     $.each(response.responseCrearDLL.ListError, function (indie, errorDLL) {
@@ -446,17 +447,18 @@
                     $('#codeSP').html(response.responseCrearSP.ResponseType);
 
                     if ($('#chkWS').is(':checked')) {
-                        $('#pnlWSDTO').css('display', 'block');
-                        $('#pnlWSDLL').css('display', 'block');
-                        $('#pnlWSBLL').css('display', 'block');
+                        //$('#pnlWSDTO').css('display', 'block');
+                        //$('#pnlWSDLL').css('display', 'block');
+                        //$('#pnlWSBLL').css('display', 'block');
+
                         //$('#codeWSDTO').html(response.ObjCrearWSDTO.cuerpoFinalWSDTO);
                         //$('#codeWSDLL').html(response.ObjCrearWSDLL.cuerpoFinalWSDLL);
                         //$('#codeWSBLL').html(response.ObjCrearWSBLL.cuerpoFinalWSBLL);
                     }
                     else {
-                        $('#pnlWSDTO').css('display', 'none');
-                        $('#pnlWSDLL').css('display', 'none');
-                        $('#pnlWSBLL').css('display', 'none');
+                        //$('#pnlWSDTO').css('display', 'none');
+                        //$('#pnlWSDLL').css('display', 'none');
+                        //$('#pnlWSBLL').css('display', 'none');
                     }
                 }
                 else {

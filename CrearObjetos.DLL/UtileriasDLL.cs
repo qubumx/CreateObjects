@@ -87,10 +87,10 @@ namespace CrearObjetos.DLL
             return ObjBaseDatos;
         }
 
-        public Response<EsquemaDTO> ObtenerEsquemas(GestorBaseDatosDTO informacioGestorBaseDatos, string cadena)
+        public Response<EsquemaDTO> ObtenerEsquemas(GestorBaseDatosDTO informacioGestorBaseDatos, String cadenaConexion)
         {
             Response<EsquemaDTO> ObjEsquema = new Response<EsquemaDTO>();
-            using (var context = DAL.DAL.ContextSQL(cadena))
+            using (var context = DAL.DAL.ContextSQL(cadenaConexion))
             {
                 try
                 {
@@ -125,10 +125,10 @@ namespace CrearObjetos.DLL
             return ObjEsquema;
         }
 
-        public Response<TablaDTO> ObtenerTablas(GestorBaseDatosDTO informacioGestorBaseDatos, string cadena)
+        public Response<TablaDTO> ObtenerTablas(GestorBaseDatosDTO informacioGestorBaseDatos, String cadenaConexion)
         {
             Response<TablaDTO> ObjTablas = new Response<TablaDTO>();
-            using (var context = DAL.DAL.ContextSQL(cadena))
+            using (var context = DAL.DAL.ContextSQL(cadenaConexion))
             {
                 try
                 {
@@ -273,16 +273,26 @@ namespace CrearObjetos.DLL
         //}
 
         //public Response<InformacionTablaDTO> LeerCamposTabla(EsquemaDTO esquema, TablaDTO tabla)
-        public Response<InformacionTablaDTO> LeerCamposTabla(ProyectoDTO proyecto)
+        public Response<InformacionTablaDTO> LeerCamposTablaSQL(ProyectoDTO proyecto, String cadenaConexion)
         {
             Response<InformacionTablaDTO> ObjTablas = new Response<InformacionTablaDTO>();
-            using (var context = DAL.DAL.Context())
+            using (var context = DAL.DAL.ContextSQL(cadenaConexion))
             {
                 try
                 {
-                    ObjTablas.ListRecords = context.StoredProcedure("[dbo].[InformacionTablaFilSel]")
-                                            .Parameter("Tabla", proyecto.NombreEsquema + "." + proyecto.NombreTabla)
-                                            .QueryMany<InformacionTablaDTO>();
+                    string query = @"SELECT C.COLUMN_NAME NombreColumna, C.DATA_TYPE TipoDato, C.CHARACTER_MAXIMUM_LENGTH LongitudMaxima, CASE WHEN C.IS_NULLABLE ='YES' THEN 1 ELSE 0 END CampoNulo
+                                    FROM INFORMATION_SCHEMA.TABLES AS T
+                                    INNER JOIN INFORMATION_SCHEMA.COLUMNS AS C ON T.TABLE_CATALOG = C.TABLE_CATALOG AND T.TABLE_SCHEMA = C.TABLE_SCHEMA AND T.TABLE_NAME = C.TABLE_NAME
+                                    WHERE T.TABLE_NAME='" + proyecto.NombreTabla + "'";
+                    //ObjTablas.ListRecords = context.StoredProcedure("[dbo].[InformacionTablaFilSel]")
+                    //                        .Parameter("Tabla", proyecto.NombreEsquema + "." + proyecto.NombreTabla)
+                    //                        .QueryMany<InformacionTablaDTO>();
+
+                    ObjTablas.ListRecords = context.Sql(query)
+                                             .QueryMany<InformacionTablaDTO>();
+
+                    ObjTablas.RecordsCount = ObjTablas.ListRecords.Count;
+
                     if (ObjTablas.RecordsCount > 0)
                     {
                         ObjTablas.UserMessage = "Se obtuvo correctamente la información correspondiente a la base de datos.";

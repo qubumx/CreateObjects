@@ -98,10 +98,12 @@ namespace CreadorObjetos.Controllers
 
             //Response<String> responseCrearDTO = CrearDTO.Instances.ConstruccionDTO(objEsquema, objTabla);
             Response<String> responseCrearDTO = CrearDTO.Instances.ConstruccionDTO(proyecto);
+            
+            //Response<String> responseCrearSP = new Response<string>();
+            Response<String> responseCrearSP = CrearSP.Instances.SPSCRUD(proyecto);
 
-            //Response<String> responseCrearSP = CrearSP.Instances.SPSCRUD(objEsquema, objTabla, objProyecto, objUsuarioProyecto, objBaseDatos);
-
-            //Response<String> responseCrearDLL = CrearDLL.Instances.ConstruccionBusiness(objEsquema, objTabla);
+            //Response<String> responseCrearDLL = new Response<string>();
+            Response<String> responseCrearDLL = CrearDLL.Instances.ConstruccionBusiness(proyecto);
 
 
             //CrearWSDTO ObjCrearWSDTO = new CrearWSDTO { esquemaTabla = esquema, nombreTabla = tabla, nombreBaseDatos = baseDatos };
@@ -116,9 +118,7 @@ namespace CreadorObjetos.Controllers
             //ObjCrearWSBLL.ConstruccionWSBLL();
 
             //return Json(new { ObjCrearSP, ObjCrearDTO, ObjCrearBusiness, ObjCrearWSDTO, ObjCrearWSDLL, ObjCrearWSBLL }, JsonRequestBehavior.AllowGet);
-            //return Json(new { responseCrearDTO, responseCrearSP, responseCrearDLL }, JsonRequestBehavior.AllowGet);
-
-            return null;
+            return Json(new { responseCrearDTO, responseCrearSP, responseCrearDLL }, JsonRequestBehavior.AllowGet);
         }
     }
 }

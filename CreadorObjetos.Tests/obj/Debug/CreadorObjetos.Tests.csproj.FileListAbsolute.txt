@@ -106,3 +106,35 @@ C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos.Tests\bi
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos.Tests\obj\Debug\CreadorObjetos.Tests.csprojResolveAssemblyReference.cache
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos.Tests\obj\Debug\CreadorObjetos.Tests.dll
 C:\Users\CarlosQB\Documents\-- DESARROLLOS\CreateObjects\CreadorObjetos.Tests\obj\Debug\CreadorObjetos.Tests.pdb
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CreadorObjetos.Tests.dll.config
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CreadorObjetos.Tests.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CreadorObjetos.Tests.pdb
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CreadorObjetos.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\Microsoft.Web.Mvc.FixedDisplayModes.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\Newtonsoft.Json.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.Helpers.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.Mvc.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.Razor.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.WebPages.Deployment.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.WebPages.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.WebPages.Razor.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.Optimization.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CrearObjetos.DTO.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CrearObjetos.BLL.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CrearObjetos.DLL.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\FluentData.dll
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CreadorObjetos.pdb
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\Newtonsoft.Json.xml
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.Helpers.xml
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.Mvc.xml
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.Razor.xml
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.WebPages.xml
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.WebPages.Deployment.xml
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\System.Web.WebPages.Razor.xml
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CrearObjetos.DTO.pdb
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CrearObjetos.BLL.pdb
+D:\CreateObjects\CreadorObjetos.Tests\bin\Debug\CrearObjetos.DLL.pdb
+D:\CreateObjects\CreadorObjetos.Tests\obj\Debug\CreadorObjetos.Tests.csprojResolveAssemblyReference.cache
+D:\CreateObjects\CreadorObjetos.Tests\obj\Debug\CreadorObjetos.Tests.dll
+D:\CreateObjects\CreadorObjetos.Tests\obj\Debug\CreadorObjetos.Tests.pdb

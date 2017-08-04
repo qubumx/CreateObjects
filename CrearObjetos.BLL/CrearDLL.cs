@@ -26,11 +26,11 @@ namespace CrearObjetos.BLL
             this.cuerpoFinalBusiness = String.Empty;
         }
 
-        public Response<String> ConstruccionBusiness(EsquemaDTO esquema, TablaDTO tabla)
+        public Response<String> ConstruccionBusiness(ProyectoDTO proyecto)
         {
             Response<String> response = new Response<String>();            
 
-            //this.ResponseTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            this.ResponseTabla = UtileriasBLL.Instances.LeerCamposTabla(proyecto);
 
             if (this.ResponseTabla.StatusType == StatusType.Ok)
             {
@@ -41,21 +41,20 @@ namespace CrearObjetos.BLL
                 //this.cuerpoBusiness.Append("using BS.DTO.Genericas;" + Environment.NewLine);
                 this.cuerpoBusiness.Append("using Ingram_DLL.General;" + Environment.NewLine);
                 this.cuerpoBusiness.Append("using Ingram_Obj.Utilities;" + Environment.NewLine);
-                String tabla1 = tabla.NombreTabla;
-                tabla1 = tabla1.Remove(0, 3);
-                this.cuerpoBusiness.Append("using Ingram_Obj." + tabla1 + ";" + Environment.NewLine);
+
+                this.cuerpoBusiness.Append("using Ingram_Obj." + proyecto.NombreTabla + ";" + Environment.NewLine);
                 //this.cuerpoBusiness.Append("using BS.DAL;" + Environment.NewLine);
                 this.cuerpoBusiness.Append("" + Environment.NewLine);
-                this.cuerpoBusiness.Append("namespace Ingram_DLL." + tabla1 + "" + Environment.NewLine);
+                this.cuerpoBusiness.Append("namespace Ingram_DLL." + proyecto.NombreTabla + "" + Environment.NewLine);
                 this.cuerpoBusiness.Append("{" + Environment.NewLine);
-                this.cuerpoBusiness.Append("    public class " + tabla1 + "DLL : Instance<" + tabla1 + "DLL>" + Environment.NewLine);
+                this.cuerpoBusiness.Append("    public class " + proyecto.NombreTabla + "DLL : Instance<" + proyecto.NombreTabla + "DLL>" + Environment.NewLine);
                 this.cuerpoBusiness.Append("    {" + Environment.NewLine);
 
-                CrearBusinessSelect(esquema,tabla);
-                CrearBusinessInsert(esquema, tabla);
-                CrearBusinessUpdate(esquema, tabla);
-                CrearBusinessDelete(esquema, tabla);
-                CrearBusinessFilterSelect(esquema, tabla);
+                CrearBusinessSelect(proyecto);
+                CrearBusinessInsert(proyecto);
+                CrearBusinessUpdate(proyecto);
+                CrearBusinessDelete(proyecto);
+                CrearBusinessFilterSelect(proyecto);
 
                 this.cuerpoBusiness.Append("    }" + Environment.NewLine);
                 this.cuerpoBusiness.Append("}" + Environment.NewLine);
@@ -100,37 +99,34 @@ namespace CrearObjetos.BLL
             else
             {
                 response.StatusType = StatusType.Error;
-                response.UserMessage = "No existe información de la tabla " + tabla.NombreTabla + " filtrada.";
-                Log.LogFile("No existe información de la tabla " + tabla.NombreTabla + " filtrada.", "ConstruccionBusiness", "CrearDLL", "Administrador");
+                response.UserMessage = "No existe información de la tabla " + proyecto.NombreTabla + " filtrada.";
+                Log.LogFile("No existe información de la tabla " + proyecto.NombreTabla + " filtrada.", "ConstruccionBusiness", "CrearDLL", "Administrador");
             }
 
             response.ResponseType = this.cuerpoFinalBusiness;
             return response;
         }
 
-        private void CrearBusinessSelect(EsquemaDTO esquema, TablaDTO tabla)
+        private void CrearBusinessSelect(ProyectoDTO proyecto)
         {
-            String tabla1 = tabla.NombreTabla;
-            tabla1 = tabla1.Remove(0, 3);
-
-            this.cuerpoBusiness.Append("        public Response<" + tabla1 + "Obj> " + tabla1 + "Sel(String UserName)" + Environment.NewLine);
+            this.cuerpoBusiness.Append("        public Response<" + proyecto.NombreTabla + "Obj> " + proyecto.NombreTabla + "Sel(String UserName)" + Environment.NewLine);
             this.cuerpoBusiness.Append("        {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("            Response<" + tabla1 + "Obj> ObjResponse = new Response<" + tabla1 + "Obj>();" + Environment.NewLine);
+            this.cuerpoBusiness.Append("            Response<" + proyecto.NombreTabla + "Obj> ObjResponse = new Response<" + proyecto.NombreTabla + "Obj>();" + Environment.NewLine);
             this.cuerpoBusiness.Append("            using (var context = DAL.Context())" + Environment.NewLine);
             this.cuerpoBusiness.Append("            {" + Environment.NewLine);
             this.cuerpoBusiness.Append("                try" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
             //this.cuerpoBusiness.Append("                    ObjResponse.ResponseType = context.StoredProcedure(\"" + this.esquemaTabla + ".Sp_ps_" + this.nombreTabla + "\")" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    ObjResponse.ListRecords = context.StoredProcedure(\"" + esquema.NombreEsquema + ".Sp_ps_" + tabla1 + "\")" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                            .QueryMany<" + tabla1 + "Obj>();" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    ObjResponse.ListRecords = context.StoredProcedure(\"" + proyecto.NombreEsquema + ".Sp_ps_" + proyecto.NombreTabla + "\")" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                            .QueryMany<" + proyecto.NombreTabla + "Obj>();" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (SqlException sqlex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + tabla1 + "Sel\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + proyecto.NombreTabla + "Sel\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (Exception ex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + tabla1 + "Sel\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + proyecto.NombreTabla + "Sel\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            return ObjResponse;" + Environment.NewLine);
@@ -138,25 +134,23 @@ namespace CrearObjetos.BLL
             this.cuerpoBusiness.Append(Environment.NewLine);
         }
 
-        private void CrearBusinessInsert(EsquemaDTO esquema, TablaDTO tabla)
+        private void CrearBusinessInsert(ProyectoDTO proyecto)
         {
-            String tabla1 = tabla.NombreTabla;
-            tabla1 = tabla1.Remove(0, 3);
 
-            this.cuerpoBusiness.Append("        public Response<" + tabla1 + "Obj> " + tabla1 + "Ins(" + tabla1 + "Obj Obj" + tabla1 + ", String UserName)" + Environment.NewLine);
+            this.cuerpoBusiness.Append("        public Response<" + proyecto.NombreTabla + "Obj> " + proyecto.NombreTabla + "Ins(" + proyecto.NombreTabla + "Obj Obj" + proyecto.NombreTabla + ", String UserName)" + Environment.NewLine);
             this.cuerpoBusiness.Append("        {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("            Response<" + tabla1 + "Obj> ObjResponse = new Response<" + tabla1 + "Obj>();" + Environment.NewLine);
+            this.cuerpoBusiness.Append("            Response<" + proyecto.NombreTabla + "Obj> ObjResponse = new Response<" + proyecto.NombreTabla + "Obj>();" + Environment.NewLine);
             this.cuerpoBusiness.Append("            using (var context = DAL.Context())" + Environment.NewLine);
             this.cuerpoBusiness.Append("            {" + Environment.NewLine);
             this.cuerpoBusiness.Append("                try" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    ObjResponse.StatusResponse = context.StoredProcedure(\"" + esquema.NombreEsquema + ".Sp_pi_" + tabla1 + "\")" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    ObjResponse.StatusResponse = context.StoredProcedure(\"" + proyecto.NombreEsquema + ".Sp_pi_" + proyecto.NombreTabla + "\")" + Environment.NewLine);
 
             foreach (InformacionTablaDTO item in this.ResponseTabla.ListRecords)
             {
                 if ((!item.EsPK) && (item.NombreColumna != "Activo") && (item.NombreColumna != "FechaIns") && (item.NombreColumna != "UsuarioUpd") && (item.NombreColumna != "FechaUpd"))
                 {
-                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + tabla1 + "." + item.NombreColumna + ")" + Environment.NewLine);
+                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + proyecto.NombreTabla + "." + item.NombreColumna + ")" + Environment.NewLine);
                 }
             }
 
@@ -164,11 +158,11 @@ namespace CrearObjetos.BLL
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (SqlException sqlex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + tabla1 + "Ins\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + proyecto.NombreTabla + "Ins\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (Exception ex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + tabla1 + "Ins\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + proyecto.NombreTabla + "Ins\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            return ObjResponse;" + Environment.NewLine);
@@ -176,25 +170,23 @@ namespace CrearObjetos.BLL
             this.cuerpoBusiness.Append(Environment.NewLine);
         }
 
-        private void CrearBusinessUpdate(EsquemaDTO esquema, TablaDTO tabla)
+        private void CrearBusinessUpdate(ProyectoDTO proyecto)
         {
-            String tabla1 = tabla.NombreTabla;
-            tabla1 = tabla1.Remove(0, 3);
 
-            this.cuerpoBusiness.Append("        public Response<" + tabla1 + "Obj> " + tabla1 + "Upd(" + tabla1 + "Obj Obj" + tabla1 + ", String UserName)" + Environment.NewLine);
+            this.cuerpoBusiness.Append("        public Response<" + proyecto.NombreTabla + "Obj> " + proyecto.NombreTabla + "Upd(" + proyecto.NombreTabla + "Obj Obj" + proyecto.NombreTabla + ", String UserName)" + Environment.NewLine);
             this.cuerpoBusiness.Append("        {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("            Response<" + tabla1 + "Obj> ObjResponse = new Response<" + tabla1 + "Obj>();" + Environment.NewLine);
+            this.cuerpoBusiness.Append("            Response<" + proyecto.NombreTabla + "Obj> ObjResponse = new Response<" + proyecto.NombreTabla + "Obj>();" + Environment.NewLine);
             this.cuerpoBusiness.Append("            using (var context = DAL.Context())" + Environment.NewLine);
             this.cuerpoBusiness.Append("            {" + Environment.NewLine);
             this.cuerpoBusiness.Append("                try" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    ObjResponse.StatusResponse = context.StoredProcedure(\"" + esquema.NombreEsquema + ".Sp_pu_" + tabla1 + "\")" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    ObjResponse.StatusResponse = context.StoredProcedure(\"" + proyecto.NombreEsquema + ".Sp_pu_" + proyecto.NombreTabla + "\")" + Environment.NewLine);
 
             foreach (InformacionTablaDTO item in this.ResponseTabla.ListRecords)
             {
                 if ((item.NombreColumna != "FechaIns") && (item.NombreColumna != "UsuarioIns") && (item.NombreColumna != "FechaUpd"))
                 {
-                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + tabla1 + "." + item.NombreColumna + ")" + Environment.NewLine);
+                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + proyecto.NombreTabla + "." + item.NombreColumna + ")" + Environment.NewLine);
                 }
             }
 
@@ -202,11 +194,11 @@ namespace CrearObjetos.BLL
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (SqlException sqlex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + tabla1 + "Upd\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + proyecto.NombreTabla + "Upd\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (Exception ex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + tabla1 + "Upd\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + proyecto.NombreTabla + "Upd\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            return ObjResponse;" + Environment.NewLine);
@@ -214,29 +206,27 @@ namespace CrearObjetos.BLL
             this.cuerpoBusiness.Append(Environment.NewLine);
         }
 
-        private void CrearBusinessDelete(EsquemaDTO esquema, TablaDTO tabla)
+        private void CrearBusinessDelete(ProyectoDTO proyecto)
         {
-            String tabla1 = tabla.NombreTabla;
-            tabla1 = tabla1.Remove(0, 3);
 
-            this.cuerpoBusiness.Append("        public Response<" + tabla1 + "Obj> " + tabla1 + "Del(" + tabla1 + "Obj Obj" + tabla1 + ", String UserName)" + Environment.NewLine);
+            this.cuerpoBusiness.Append("        public Response<" + proyecto.NombreTabla + "Obj> " + proyecto.NombreTabla + "Del(" + proyecto.NombreTabla + "Obj Obj" + proyecto.NombreTabla + ", String UserName)" + Environment.NewLine);
             this.cuerpoBusiness.Append("        {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("            Response<" + tabla1 + "Obj> ObjResponse = new Response<" + tabla1 + "Obj>();" + Environment.NewLine);
+            this.cuerpoBusiness.Append("            Response<" + proyecto.NombreTabla + "Obj> ObjResponse = new Response<" + proyecto.NombreTabla + "Obj>();" + Environment.NewLine);
             this.cuerpoBusiness.Append("            using (var context = DAL.Context())" + Environment.NewLine);
             this.cuerpoBusiness.Append("            {" + Environment.NewLine);
             this.cuerpoBusiness.Append("                try" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    ObjResponse.StatusResponse = context.StoredProcedure(\"" + esquema.NombreEsquema + ".Sp_pd_" + tabla1 + "\")" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    ObjResponse.StatusResponse = context.StoredProcedure(\"" + proyecto.NombreEsquema + ".Sp_pd_" + proyecto.NombreTabla + "\")" + Environment.NewLine);
 
             foreach (InformacionTablaDTO item in this.ResponseTabla.ListRecords)
             {
                 if (item.EsPK)
                 {
-                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + tabla1 + "." + item.NombreColumna + ")" + Environment.NewLine);
+                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + proyecto.NombreTabla + "." + item.NombreColumna + ")" + Environment.NewLine);
                 }
                 else if (item.NombreColumna == "UsuarioUpd")
                 {
-                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + tabla1 + "." + item.NombreColumna + ")" + Environment.NewLine);
+                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + proyecto.NombreTabla + "." + item.NombreColumna + ")" + Environment.NewLine);
                 }
             }
 
@@ -244,11 +234,11 @@ namespace CrearObjetos.BLL
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (SqlException sqlex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + tabla1 + "Del\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + proyecto.NombreTabla + "Del\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (Exception ex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + tabla1 + "Del\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + proyecto.NombreTabla + "Del\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            return ObjResponse;" + Environment.NewLine);
@@ -256,37 +246,34 @@ namespace CrearObjetos.BLL
             this.cuerpoBusiness.Append(Environment.NewLine);
         }
 
-        private void CrearBusinessFilterSelect(EsquemaDTO esquema, TablaDTO tabla)
+        private void CrearBusinessFilterSelect(ProyectoDTO proyecto)
         {
-            String tabla1 = tabla.NombreTabla;
-            tabla1 = tabla1.Remove(0, 3);
-
-            this.cuerpoBusiness.Append("        public Response<" + tabla1 + "Obj> " + tabla1 + "FilSel(" + tabla1 + "Obj Obj" + tabla1 + ", String UserName)" + Environment.NewLine);
+            this.cuerpoBusiness.Append("        public Response<" + proyecto.NombreTabla + "Obj> " + proyecto.NombreTabla + "FilSel(" + proyecto.NombreTabla + "Obj Obj" + proyecto.NombreTabla + ", String UserName)" + Environment.NewLine);
             this.cuerpoBusiness.Append("        {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("            Response<" + tabla1 + "Obj> ObjResponse = new Response<" + tabla1 + "Obj>();" + Environment.NewLine);
+            this.cuerpoBusiness.Append("            Response<" + proyecto.NombreTabla + "Obj> ObjResponse = new Response<" + proyecto.NombreTabla + "Obj>();" + Environment.NewLine);
             this.cuerpoBusiness.Append("            using (var context = DAL.Context())" + Environment.NewLine);
             this.cuerpoBusiness.Append("            {" + Environment.NewLine);
             this.cuerpoBusiness.Append("                try" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    ObjResponse.ListRecords = context.StoredProcedure(\"" + esquema.NombreEsquema + ".Sp_pfs_" + tabla1 + "\")" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    ObjResponse.ListRecords = context.StoredProcedure(\"" + proyecto.NombreEsquema + ".Sp_pfs_" + proyecto.NombreTabla + "\")" + Environment.NewLine);
 
             foreach (InformacionTablaDTO item in this.ResponseTabla.ListRecords)
             {
                 if ((item.NombreColumna != "UsuarioIns") && (item.NombreColumna != "FechaIns") && (item.NombreColumna != "UsuarioUpd") && (item.NombreColumna != "FechaUpd") && (item.NombreColumna != "Activo"))
                 {
-                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + tabla1 + "." + item.NombreColumna + ")" + Environment.NewLine);
+                    this.cuerpoBusiness.Append("                            .Parameter(\"" + item.NombreColumna + "\", Obj" + proyecto.NombreTabla + "." + item.NombreColumna + ")" + Environment.NewLine);
                 }
             }
 
-            this.cuerpoBusiness.Append("                            .QueryMany<" + tabla1 + "Obj>();" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                            .QueryMany<" + proyecto.NombreTabla + "Obj>();" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (SqlException sqlex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + tabla1 + "FilIns\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de base de datos: \" + sqlex.Message.ToString(), \"" + proyecto.NombreTabla + "FilIns\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("                catch (Exception ex)" + Environment.NewLine);
             this.cuerpoBusiness.Append("                {" + Environment.NewLine);
-            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + tabla1 + "FilIns\", \"Log_" + tabla1 + "DLL\", UserName);" + Environment.NewLine);
+            this.cuerpoBusiness.Append("                    Log.LogFile(\"Error de sistema: \" + ex.Message.ToString(), \"" + proyecto.NombreTabla + "FilIns\", \"Log_" + proyecto.NombreTabla + "DLL\", UserName);" + Environment.NewLine);
             this.cuerpoBusiness.Append("                }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            }" + Environment.NewLine);
             this.cuerpoBusiness.Append("            return ObjResponse;" + Environment.NewLine);

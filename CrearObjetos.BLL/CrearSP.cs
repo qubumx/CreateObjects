@@ -45,33 +45,35 @@ namespace CrearObjetos.BLL
 
         #region CRUD
 
-        public Response<String> SPSCRUD(EsquemaDTO esquema, TablaDTO tabla, ProyectoDTO proyecto, UsuarioProyectoDTO usuario, BaseDatosDTO baseDatos)
+        //public Response<String> SPSCRUD(EsquemaDTO esquema, TablaDTO tabla, ProyectoDTO proyecto, UsuarioProyectoDTO usuario, BaseDatosDTO baseDatos)
+        public Response<String> SPSCRUD(ProyectoDTO proyecto)
+
         {
             Response<String> responseCRUD = new Response<string>();
             Response<String> response = new Response<string>();
 
-            responseCRUD = CrearSPSelect(esquema, tabla,proyecto,usuario,baseDatos );
+            responseCRUD = CrearSPSelect(proyecto);
             this.cuerpoFinalSP += responseCRUD.ResponseType;
 
-            responseCRUD = CrearSPDelete(esquema, tabla, proyecto, usuario, baseDatos);
+            responseCRUD = CrearSPDelete(proyecto);
             this.cuerpoFinalSP += responseCRUD.ResponseType;
 
-            responseCRUD = CrearSPUpdate(esquema, tabla, proyecto, usuario, baseDatos);
+            responseCRUD = CrearSPUpdate(proyecto);
             this.cuerpoFinalSP += responseCRUD.ResponseType;
 
-            responseCRUD = CrearSPInsert(esquema, tabla, proyecto, usuario, baseDatos);
+            responseCRUD = CrearSPInsert(proyecto);
             this.cuerpoFinalSP += responseCRUD.ResponseType;
 
-            responseCRUD = CrearSPFilterSelect(esquema, tabla, proyecto, usuario, baseDatos);
+            responseCRUD = CrearSPFilterSelect(proyecto);
             this.cuerpoFinalSP += responseCRUD.ResponseType;
 
             response.ResponseType = this.cuerpoFinalSP;
             return response;
         }
 
-        private void CrearSPEncabezado(ProyectoDTO proyecto, UsuarioProyectoDTO usuarioProyecto, BaseDatosDTO baseDatos)
+        private void CrearSPEncabezado(ProyectoDTO proyecto)
         {
-            this.cuerpoSP.Append("USE [" + baseDatos.NombreBaseDatos + "]" + Environment.NewLine); 
+            this.cuerpoSP.Append("USE [" + proyecto.NombreBaseDatos + "]" + Environment.NewLine); 
             this.cuerpoSP.Append("GO" + Environment.NewLine);
             this.cuerpoSP.Append("-- =============================================" + Environment.NewLine);
             //this.cuerpoSP.Append("-- Autor          :" + usuarioProyecto.NombreColaborador + Environment.NewLine);
@@ -81,20 +83,18 @@ namespace CrearObjetos.BLL
             this.cuerpoSP.Append("-- =============================================" + Environment.NewLine + Environment.NewLine);
         }
 
-        private Response<String> CrearSPSelect(EsquemaDTO esquema, TablaDTO tabla, ProyectoDTO proyecto, UsuarioProyectoDTO usuarioProyecto, BaseDatosDTO baseDatos)
+        //private Response<String> CrearSPSelect(EsquemaDTO esquema, TablaDTO tabla, ProyectoDTO proyecto, UsuarioProyectoDTO usuarioProyecto, BaseDatosDTO baseDatos)
+        private Response<String> CrearSPSelect(ProyectoDTO proyecto)
         {
             Response<String> response = new Response<string>();
 
             this.accionCRUD = "Seleccionar los registros de la ";
-            CrearSPEncabezado(proyecto, usuarioProyecto, baseDatos);
-            //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema,tabla);
+            CrearSPEncabezado(proyecto);
+            this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(proyecto);
 
-            if (this.respuestaTabla.StatusType == StatusType.Ok)
+            if (this.respuestaTabla.StatusType.Equals(StatusType.Ok))
             {
-                String tabla1 = tabla.NombreTabla;
-                tabla1 = tabla1.Remove(0, 3);
-
-                this.cuerpoSP.Append("CREATE PROCEDURE [" + esquema.NombreEsquema + "].[Sp_ps_" + tabla1 + "]" + Environment.NewLine);
+                this.cuerpoSP.Append("CREATE PROCEDURE [" + proyecto.NombreEsquema + "].[Sp_ps_" + proyecto.NombreTabla + "]" + Environment.NewLine);
                 this.cuerpoSP.Append("AS" + Environment.NewLine);
                 this.cuerpoSP.Append("BEGIN" + Environment.NewLine);
                 this.cuerpoSP.Append("      SET NOCOUNT ON;" + Environment.NewLine);
@@ -109,7 +109,7 @@ namespace CrearObjetos.BLL
                 }
 
                 this.cuerpoSP.Append("              FROM" + Environment.NewLine);
-                this.cuerpoSP.Append("                      [" + esquema.NombreEsquema + "].[" + tabla.NombreTabla + "] WITH (NOLOCK)" + Environment.NewLine);
+                this.cuerpoSP.Append("                      [" + proyecto.NombreEsquema + "].[" + proyecto.NombreTabla + "] WITH (NOLOCK)" + Environment.NewLine);
                 //this.cuerpoSP.Append("          END TRY" + Environment.NewLine);
                 //this.cuerpoSP.Append("          BEGIN CATCH" + Environment.NewLine);
                 //this.cuerpoSP.Append("              EXEC bs_Admin.ErrorSel" + Environment.NewLine);
@@ -166,30 +166,28 @@ namespace CrearObjetos.BLL
                 //this.respuestaTabla.AsigaErrorSistema("No existe información de la tabla " + this.nombreTabla + " filtrada.");
 
                 response.StatusType = StatusType.Error;
-                response.UserMessage = "No existe información de la tabla " + this.nombreTabla + " filtrada.";
-                Log.LogFile("No existe información de la tabla " + this.nombreTabla + " filtrada.", "CrearSPSelect", "Utilerias", "Administrador");
+                response.UserMessage = "No existe información de la tabla " + proyecto.NombreTabla + " filtrada.";
+                Log.LogFile("No existe información de la tabla " + proyecto.NombreTabla + " filtrada.", "CrearSPSelect", "Utilerias", "Administrador");
             }
             return response;
         }
 
-        private Response<String> CrearSPInsert(EsquemaDTO esquema, TablaDTO tabla, ProyectoDTO proyecto, UsuarioProyectoDTO usuarioProyecto, BaseDatosDTO baseDatos)
+        private Response<String> CrearSPInsert(ProyectoDTO proyecto)
         {
             Response<String> response = new Response<string>();
 
             this.accionCRUD = "Ingresar un registro a la ";
-            CrearSPEncabezado(proyecto, usuarioProyecto, baseDatos);
+            CrearSPEncabezado(proyecto);
 
             if (this.respuestaTabla.StatusType == StatusType.Ok)
             {
-                String tabla1 = tabla.NombreTabla;
-                tabla1 = tabla1.Remove(0, 3);
 
                 InformacionTablaDTO objTabla = this.respuestaTabla.ListRecords.Find(tbl => tbl.EsPK == true);
                 //this.objUtilerias.tipoSql = objTabla.TipoDato;
 
-                this.cuerpoSP.Append("CREATE PROCEDURE [" + esquema.NombreEsquema + "].[Sp_pi_" + tabla1 + "]" + Environment.NewLine);
+                this.cuerpoSP.Append("CREATE PROCEDURE [" + proyecto.NombreEsquema + "].[Sp_pi_" + proyecto.NombreTabla + "]" + Environment.NewLine);
 
-                //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+                this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(proyecto);
                 this.respuestaTabla.ListRecords.RemoveAll(tbl => (tbl.EsPK == true) || (tbl.NombreColumna == "UsuarioUpd") || (tbl.NombreColumna == "FechaUpd") || (tbl.NombreColumna == "Activo") || (tbl.NombreColumna == "FechaIns"));
                 int contador = 0;
                 foreach (InformacionTablaDTO item in this.respuestaTabla.ListRecords)
@@ -216,7 +214,7 @@ namespace CrearObjetos.BLL
                 this.cuerpoSP.Append("      SET NOCOUNT ON;" + Environment.NewLine);
                 //this.cuerpoSP.Append("          BEGIN TRY" + Environment.NewLine);
                 this.cuerpoSP.Append("              INSERT INTO" + Environment.NewLine);
-                this.cuerpoSP.Append("                          [" + esquema.NombreEsquema + "].[" + tabla.NombreTabla + "] " + Environment.NewLine);
+                this.cuerpoSP.Append("                          [" + proyecto.NombreEsquema + "].[" + proyecto.NombreTabla + "] " + Environment.NewLine);
                 this.cuerpoSP.Append("                          (" + Environment.NewLine);
                 this.cuerpoSP.Append(this.campos.ToString());
                 this.cuerpoSP.Append("                          )" + Environment.NewLine);
@@ -281,28 +279,25 @@ namespace CrearObjetos.BLL
                 //this.respuestaTabla.AsigaErrorSistema("No existe información de la tabla " + this.nombreTabla + " filtrada.");
 
                 response.StatusType = StatusType.Error;
-                response.UserMessage = "No existe información de la tabla " + this.nombreTabla + " filtrada.";
-                Log.LogFile("No existe información de la tabla " + this.nombreTabla + " filtrada.", "CrearSPInsert", "Utilerias", "Administrador");
+                response.UserMessage = "No existe información de la tabla " + proyecto.NombreTabla + " filtrada.";
+                Log.LogFile("No existe información de la tabla " + proyecto.NombreTabla + " filtrada.", "CrearSPInsert", "Utilerias", "Administrador");
             }
             return response;
         }
 
-        private Response<String> CrearSPUpdate(EsquemaDTO esquema, TablaDTO tabla, ProyectoDTO proyecto, UsuarioProyectoDTO usuarioProyecto, BaseDatosDTO baseDatos)
+        private Response<String> CrearSPUpdate(ProyectoDTO proyecto)
         {
             Response<String> response = new Response<String>();
             this.accionCRUD = "Actualizar un registro de la ";
-            CrearSPEncabezado(proyecto, usuarioProyecto, baseDatos);
+            CrearSPEncabezado(proyecto);
 
-            //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(proyecto);
             if (this.respuestaTabla.StatusType == StatusType.Ok)
             {
-                String tabla1 = tabla.NombreTabla;
-                tabla1 = tabla1.Remove(0, 3);
-
                 InformacionTablaDTO objTabla = this.respuestaTabla.ListRecords.Find(tbl => tbl.EsPK == true);
                 //this.objUtilerias.tipoSql = objTabla.TipoDato;
 
-                this.cuerpoSP.Append("CREATE PROCEDURE [" + esquema.NombreEsquema + "].[Sp_pu_" + tabla1 + "]" + Environment.NewLine);
+                this.cuerpoSP.Append("CREATE PROCEDURE [" + proyecto.NombreEsquema + "].[Sp_pu_" + proyecto.NombreTabla + "]" + Environment.NewLine);
 
                 this.respuestaTabla.ListRecords.RemoveAll(tbl => (tbl.NombreColumna == "UsuarioIns" || tbl.NombreColumna == "FechaIns"));
                 int contador = 0;
@@ -349,7 +344,7 @@ namespace CrearObjetos.BLL
                 this.cuerpoSP.Append("      SET NOCOUNT ON;" + Environment.NewLine);
                 //this.cuerpoSP.Append("          BEGIN TRY" + Environment.NewLine);
                 this.cuerpoSP.Append("              UPDATE" + Environment.NewLine);
-                this.cuerpoSP.Append("                    [" + esquema.NombreEsquema + "].[" + tabla.NombreTabla + "]" + Environment.NewLine);
+                this.cuerpoSP.Append("                    [" + proyecto.NombreEsquema + "].[" + proyecto.NombreTabla + "]" + Environment.NewLine);
                 this.cuerpoSP.Append("              SET" + Environment.NewLine);
                 this.cuerpoSP.Append(this.campos.ToString());
                 this.cuerpoSP.Append("              WHERE" + Environment.NewLine);
@@ -417,22 +412,19 @@ namespace CrearObjetos.BLL
             return response;
         }
 
-        private Response<String> CrearSPDelete(EsquemaDTO esquema, TablaDTO tabla, ProyectoDTO proyecto, UsuarioProyectoDTO usuarioProyecto, BaseDatosDTO baseDatos)
+        private Response<String> CrearSPDelete(ProyectoDTO proyecto)
         {
             Response<String> response = new Response<String>();
             this.accionCRUD = "Eliminar (Eliminación Lógica) un registro de la ";
-            CrearSPEncabezado(proyecto, usuarioProyecto, baseDatos);
-            //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            CrearSPEncabezado(proyecto);
+            this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(proyecto);
 
             if (this.respuestaTabla.StatusType == StatusType.Ok)
             {
-                String tabla1 = tabla.NombreTabla;
-                tabla1 = tabla1.Remove(0, 3);
-
                 InformacionTablaDTO objTabla = this.respuestaTabla.ListRecords.Find(tbl => tbl.EsPK == true);
                 //this.objUtilerias.tipoSql = objTabla.TipoDato;
 
-                this.cuerpoSP.Append("CREATE PROCEDURE [" + esquema.NombreEsquema + "].[Sp_pd_" + tabla1 + "]" + Environment.NewLine);
+                this.cuerpoSP.Append("CREATE PROCEDURE [" + proyecto.NombreEsquema + "].[Sp_pd_" + proyecto.NombreTabla + "]" + Environment.NewLine);
 
                 this.respuestaTabla.ListRecords.RemoveAll(tbl => (tbl.NombreColumna == "UsuarioIns" || tbl.NombreColumna == "FechaIns"));
                 int contador = 0;
@@ -474,7 +466,7 @@ namespace CrearObjetos.BLL
                 this.cuerpoSP.Append("      SET NOCOUNT ON;" + Environment.NewLine);
                 //this.cuerpoSP.Append("          BEGIN TRY" + Environment.NewLine);
                 this.cuerpoSP.Append("              UPDATE" + Environment.NewLine);
-                this.cuerpoSP.Append("                    [" + esquema.NombreEsquema + "].[" + tabla.NombreTabla + "]" + Environment.NewLine);
+                this.cuerpoSP.Append("                    [" + proyecto.NombreEsquema + "].[" + proyecto.NombreTabla + "]" + Environment.NewLine);
                 this.cuerpoSP.Append("              SET" + Environment.NewLine);
                 this.cuerpoSP.Append(this.campos.ToString());
                 this.cuerpoSP.Append("              WHERE" + Environment.NewLine);
@@ -537,26 +529,22 @@ namespace CrearObjetos.BLL
                 //this.respuestaTabla.AsigaErrorSistema("No existe información de la tabla " + this.nombreTabla + " filtrada.");
 
                 response.StatusType = StatusType.Error;
-                response.UserMessage = "No existe información de la tabla " + this.nombreTabla + " filtrada.";
-                Log.LogFile("No existe información de la tabla " + this.nombreTabla + " filtrada.", "CrearSPDelete", "CrearSP", "Administrador");
+                response.UserMessage = "No existe información de la tabla " + proyecto.NombreTabla + " filtrada.";
+                Log.LogFile("No existe información de la tabla " + proyecto.NombreTabla + " filtrada.", "CrearSPDelete", "CrearSP", "Administrador");
             }
             return response;
         }
 
-        private Response<String> CrearSPFilterSelect(EsquemaDTO esquema, TablaDTO tabla, ProyectoDTO proyecto, UsuarioProyectoDTO usuarioProyecto, BaseDatosDTO baseDatos)
+        private Response<String> CrearSPFilterSelect(ProyectoDTO proyecto)
         {
             Response<String> response = new Response<String>();
             this.accionCRUD = "Seleccionar registros filtrados de la ";
-            CrearSPEncabezado(proyecto, usuarioProyecto, baseDatos);
-            //this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(esquema, tabla);
+            CrearSPEncabezado(proyecto);
+            this.respuestaTabla = UtileriasBLL.Instances.LeerCamposTabla(proyecto);
 
             if (this.respuestaTabla.StatusType == StatusType.Ok)
             {
-
-                String tabla1 = tabla.NombreTabla;
-                tabla1 = tabla1.Remove(0, 3);
-
-                this.cuerpoSP.Append("CREATE PROCEDURE [" + esquema.NombreEsquema + "].[Sp_pfs_" + tabla1 + "]" + Environment.NewLine);
+                this.cuerpoSP.Append("CREATE PROCEDURE [" + proyecto.NombreEsquema + "].[Sp_pfs_" + proyecto.NombreTabla + "]" + Environment.NewLine);
                 //this.cuerpoSP.Append("  @Filtro VARCHAR(MAX)" + Environment.NewLine);
 
                 int contador = 0;
@@ -589,7 +577,7 @@ namespace CrearObjetos.BLL
                 this.cuerpoSP.Append("              SELECT" + Environment.NewLine);
                 this.cuerpoSP.Append("                      " + this.campos);
                 this.cuerpoSP.Append("              FROM" + Environment.NewLine);
-                this.cuerpoSP.Append("                      [" + esquema.NombreEsquema + "].[" + tabla.NombreTabla + "] WITH (NOLOCK)" + Environment.NewLine);
+                this.cuerpoSP.Append("                      [" + proyecto.NombreEsquema + "].[" + proyecto.NombreTabla + "] WITH (NOLOCK)" + Environment.NewLine);
                 this.cuerpoSP.Append("              WHERE" + Environment.NewLine);
                 this.cuerpoSP.Append("" + this.condicion);
                 //this.cuerpoSP.Append("          END TRY" + Environment.NewLine);
@@ -649,8 +637,8 @@ namespace CrearObjetos.BLL
                 //this.respuestaTabla.AsigaErrorSistema("No existe información de la tabla " + this.nombreTabla + " filtrada.");
 
                 response.StatusType = StatusType.Error;
-                response.UserMessage = "No existe información de la tabla " + this.nombreTabla + " filtrada.";
-                Log.LogFile("No existe información de la tabla " + this.nombreTabla + " filtrada.", "CrearSPFilterSelect", "CrearSP", "Administrador");
+                response.UserMessage = "No existe información de la tabla " + proyecto.NombreTabla + " filtrada.";
+                Log.LogFile("No existe información de la tabla " + proyecto.NombreTabla + " filtrada.", "CrearSPFilterSelect", "CrearSP", "Administrador");
             }
             return response;
         }

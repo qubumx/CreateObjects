@@ -118,9 +118,6 @@ D:\CreateObjects\CreadorObjetos\bin\EntityFramework.dll
 D:\CreateObjects\CreadorObjetos\bin\Microsoft.Web.Infrastructure.dll
 D:\CreateObjects\CreadorObjetos\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
 D:\CreateObjects\CreadorObjetos\bin\Newtonsoft.Json.dll
-D:\CreateObjects\CreadorObjetos\bin\System.Net.Http.Formatting.dll
-D:\CreateObjects\CreadorObjetos\bin\System.Web.Http.dll
-D:\CreateObjects\CreadorObjetos\bin\System.Web.Http.WebHost.dll
 D:\CreateObjects\CreadorObjetos\bin\System.Web.Mvc.dll
 D:\CreateObjects\CreadorObjetos\bin\System.Web.Optimization.dll
 D:\CreateObjects\CreadorObjetos\bin\System.Web.Providers.dll
@@ -135,9 +132,6 @@ D:\CreateObjects\CreadorObjetos\bin\CrearObjetos.BLL.pdb
 D:\CreateObjects\CreadorObjetos\bin\CrearObjetos.DTO.pdb
 D:\CreateObjects\CreadorObjetos\bin\EntityFramework.xml
 D:\CreateObjects\CreadorObjetos\bin\Newtonsoft.Json.xml
-D:\CreateObjects\CreadorObjetos\bin\System.Net.Http.Formatting.xml
-D:\CreateObjects\CreadorObjetos\bin\System.Web.Http.xml
-D:\CreateObjects\CreadorObjetos\bin\System.Web.Http.WebHost.xml
 D:\CreateObjects\CreadorObjetos\bin\System.Web.Mvc.xml
 D:\CreateObjects\CreadorObjetos\bin\System.Web.Razor.xml
 D:\CreateObjects\CreadorObjetos\bin\System.Web.WebPages.xml

@@ -118,7 +118,22 @@ namespace CrearObjetos.BLL
         public Response<InformacionTablaDTO> LeerCamposTabla(ProyectoDTO proyecto)
         {
             //Response<InformacionTablaDTO> response = DLL.UtileriasDLL.Instances.LeerCamposTabla(esquema, tabla);
-            Response<InformacionTablaDTO> response = DLL.UtileriasDLL.Instances.LeerCamposTabla(proyecto);
+            Response<InformacionTablaDTO> response = new Response<InformacionTablaDTO>();
+           
+            Response<string> respuestaCadenaConexion = new Response<string>();
+
+            switch (proyecto.GestorBaseDatos)
+            {
+                case EnumGestorBaseDatos.MicrosoftSQLServer:
+                    respuestaCadenaConexion = ArmarCadenaConexionMicrosoftSQLServer(proyecto);
+                    respuestaCadenaConexion.ResponseType = respuestaCadenaConexion.ResponseType.Replace("master", proyecto.NombreBaseDatos);
+                    response = DLL.UtileriasDLL.Instances.LeerCamposTablaSQL(proyecto, respuestaCadenaConexion.ResponseType);
+                    break;
+                case EnumGestorBaseDatos.Oracle:
+                    respuestaCadenaConexion = ArmarCadenaConexionOracle(proyecto);
+                    break;
+            }
+           
             return response;
         }
 
